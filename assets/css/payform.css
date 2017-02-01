@@ -1,0 +1,56 @@
+/* Bambora PayForm bank payment form */
+
+#payment #bambora-payform-bank-payments {
+  position: relative;
+  clear: both;
+  overflow: auto;
+  margin: 0 0 10px 0;
+
+}
+#payment #bambora-payform-bank-payments:after {
+  content: ' ';
+  clear: both;
+
+}
+ul.payment_methods li {
+  width: 100%;
+}
+.form-row.place-order {
+  margin-top: 10px;
+}
+ul.payment_methods li.payment_method_bambora_payform p {
+  clear: both;
+}
+#payment #bambora-payform-bank-payments .bank-button {
+  background-color: #fff;
+  width: 110px;
+  height: 70px;
+  border: 2px solid #eee;
+  border-radius: 2px;
+  font-size: 10px;
+  line-height: 64px;
+  text-align: center;
+  float: left;
+  display: block;
+  margin: 0 6px 6px 0;
+  cursor: pointer;
+}
+
+#payment #bambora-payform-bank-payments .bank-button img{
+	max-width: 106px;
+	margin: 0 !important;
+	max-height: 66px !important;
+	float: none !important;
+	vertical-align: middle !important;
+	display: inline;
+}
+
+#payment #bambora-payform-bank-payments .bank-button:hover {
+  box-shadow: 1px 1px 4px rgba(50,100,150,0.4);
+  cursor: pointer;
+}
+#payment #bambora-payform-bank-payments .bank-button.selected {
+  border-color: #59416c;   
+}
+
+

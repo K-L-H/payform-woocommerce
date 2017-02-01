@@ -1,0 +1,395 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Bambora PayForm Payment Gateway\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-18 13:35+0000\n"
+"PO-Revision-Date: 2016-11-18 13:35+0000\n"
+"Last-Translator: payform <payform@bambora.com>\n"
+"Language-Team: Finnish\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Loco-Target-Locale: fi_FI\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Poedit-SearchPath-0: ."
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://payform.bambora.fi"
+msgstr ""
+"https://payform.bambora.fi\n"
+
+#. Author of the plugin
+msgid "Bambora"
+msgstr "Bambora"
+
+#: bambora_payform.php:38 bambora_payform.php:116
+msgid "Bambora PayForm"
+msgstr "Bambora PayForm"
+
+#: bambora_payform.php:39
+msgid "Bambora PayForm w3-API Payment Gateway integration for Woocommerce"
+msgstr "Bambora PayForm maksurajapinnan integraatio Woocommerceen"
+
+#: bambora_payform.php:80
+msgid ""
+"PHP cURL is not installed, install cURL to use Bambora PayForm payment "
+"gateway."
+msgstr ""
+"PHP cURL ei ole käytössä. Asenna cURL käyttääksesi Bambora PayForm "
+"maksulisäosaa."
+
+#: bambora_payform.php:102
+msgid "General options"
+msgstr "Yleiset asetukset"
+
+#: bambora_payform.php:107
+msgid "Enable/Disable"
+msgstr "Ota käyttöön/ois käytöstä"
+
+#: bambora_payform.php:109
+msgid "Enable Bambora PayForm"
+msgstr "Ota Bambora PayForm käyttöön"
+
+#: bambora_payform.php:113
+msgid "Title"
+msgstr "Otsikko"
+
+#: bambora_payform.php:115
+msgid "This controls the title which the user sees during checkout."
+msgstr "Maksutavan kassasivulla näkyvä otsikko."
+
+#: bambora_payform.php:119
+msgid "Description"
+msgstr "Kuvaus"
+
+#: bambora_payform.php:120
+msgid "Customer Message"
+msgstr "Asiakkaalle näkyvä maksutavan kuvaus."
+
+#: bambora_payform.php:122
+msgid ""
+"Bambora PayForm -palvelussa voit maksaa ostoksesi turvallisesti verkkopankin "
+"kautta, luottokortilla tai luottolaskulla."
+msgstr ""
+"Bambora PayForm -palvelussa voit maksaa ostoksesi turvallisesti verkkopankin "
+"kautta, luottokortilla tai luottolaskulla."
+
+#: bambora_payform.php:125
+msgid "Private key"
+msgstr "Yksityinen salausavain"
+
+#: bambora_payform.php:127
+msgid "Private key of the the sub-merchant"
+msgstr "Alikauppiaan yksityinen salausavain"
+
+#: bambora_payform.php:131
+msgid "API key"
+msgstr "Rajapinta-avain"
+
+#: bambora_payform.php:133
+msgid "API key of the the sub-merchant"
+msgstr "Alikauppiaan rajapinta-avain"
+
+#: bambora_payform.php:137
+msgid "Order number prefix"
+msgstr "Tilausnumeron etuliite"
+
+#: bambora_payform.php:139
+msgid "Prefix to avoid order number duplication"
+msgstr ""
+"Etuliitteellä vältetään samanlaisten tilaustunnusten luonti, jos "
+"kauppiastunnus on käytössä useassa verkkokaupassa."
+
+#: bambora_payform.php:143
+msgid "Send products"
+msgstr "Lähetä tuote-erittely"
+
+#: bambora_payform.php:145
+msgid "Send product breakdown to Bambora PayForm."
+msgstr "Lähetä tuote-erittely maksurajapintaan."
+
+#: bambora_payform.php:149
+msgid "Send payment confirmation"
+msgstr "Lähetä maksuvahvistus"
+
+#: bambora_payform.php:151
+msgid ""
+"Send Bambora PayForm's payment confirmation email to the customer's billing "
+"e-mail."
+msgstr ""
+"Lähetä Bambora PayFormin maksuvahvitus asiakkaan sähköpostiosoitteesen."
+
+#: bambora_payform.php:155
+msgid "Embedded payment options"
+msgstr "Upotettujen maksutapojen asetukset"
+
+#: bambora_payform.php:160
+msgid "Enable embedded payment"
+msgstr "Ota käyttöön maksutapojen upotus"
+
+#: bambora_payform.php:162
+msgid ""
+"Enable this if you want to use embed the payment methods to the checkout-"
+"page."
+msgstr ""
+"Ota upotus käyttöön jos haluat upottaa maksupainikkeet verkkokaupan "
+"kassasivulle."
+
+#: bambora_payform.php:169
+msgid ""
+"Retrieve enabled payment methods automatically for embedded payment "
+"(Recommended)"
+msgstr ""
+"Hae automaattisesti kauppiastilille aktivoidut maksutavat upotusta varten."
+
+#: bambora_payform.php:176
+msgid "Manage payment methods"
+msgstr "Hallitse maksutapoja"
+
+#: bambora_payform.php:178
+msgid ""
+"You can enable all of these if you are using the option to automatically "
+"retrieve your enabled payment methods, and the payment methods will "
+"automatically be visible on the checkout page if they are available."
+msgstr ""
+"Jos käytössäsi on kauppiastilin aktivoitujen maksujen hakeminen, niin voit "
+"ottaa käyttöön kaikki alla olevat maksutavat ja kaikki käytettävissä olevat "
+"maksutavat tulevat näkyviin kassasivulle."
+
+#: bambora_payform.php:181
+msgid "Banks"
+msgstr "Verkkopankit"
+
+#: bambora_payform.php:183
+msgid "Enable bank payments in the Bambora PayForm payment page."
+msgstr "Ota käyttöön verkkopankkipainikkeet maksusivulla."
+
+#: bambora_payform.php:187
+msgid "Card payments"
+msgstr "Korttimaksut"
+
+#: bambora_payform.php:189
+msgid "Enable credit cards in the Bambora PayForm payment page."
+msgstr "Ota käyttöön luottokorttipainikkeet maksusivulla."
+
+#: bambora_payform.php:193
+msgid "Credit invoices"
+msgstr "Luottolaskut ja osamaksut"
+
+#: bambora_payform.php:195
+msgid "Enable credit invoices in the Bambora PayForm payment page."
+msgstr "Ota käyttöön luottolasku- ja osamaksu-maksutavat maksusivulla."
+
+#: bambora_payform.php:199
+msgid "Maksukaista Lasku"
+msgstr "Maksukaista Lasku"
+
+#: bambora_payform.php:201
+msgid "Enable Maksukaista Lasku in the Bambora PayForm payment page."
+msgstr "Ota käyttöön Maksukaista Lasku maksusivulla."
+
+#: bambora_payform.php:205
+msgid "Laskuyritykselle"
+msgstr "Laskuyritykselle"
+
+#: bambora_payform.php:207
+msgid "Enable Laskuyritykselle in the Bambora PayForm payment page."
+msgstr "Ota käyttöön Laskuyritykselle-maksutapa maksusivulla."
+
+#: bambora_payform.php:278 bambora_payform.php:298
+msgid "Choose your payment method and click Pay for Order"
+msgstr "Valitse maksutapa ja klikkaa Lähetä Tilaus -painiketta."
+
+#: bambora_payform.php:281 bambora_payform.php:302
+msgid "Payment card"
+msgstr "Korttimaksu"
+
+#: bambora_payform.php:284 bambora_payform.php:308
+msgid "Internet banking"
+msgstr "Verkkopankkimaksu"
+
+#: bambora_payform.php:287 bambora_payform.php:345
+msgid "Invoice or part payment"
+msgstr "Lasku tai osamaksu"
+
+#: bambora_payform.php:463
+msgid "Order discount"
+msgstr "Tilauksen alennukset"
+
+#: bambora_payform.php:529 bambora_payform.php:654 bambora_payform.php:658
+msgid "Bambora PayForm order"
+msgstr "Bambora PayForm tilaus"
+
+#: bambora_payform.php:529
+msgid "Payment pending. Waiting for result."
+msgstr "Maksaminen kesken. Odottaa tulosta."
+
+#: bambora_payform.php:543 bambora_payform.php:558
+msgid "Payment failed due to an error."
+msgstr "Maksu epäonnistui - Tapahtui virhe."
+
+#: bambora_payform.php:619
+msgid "Payment method: Card payment"
+msgstr "Maksutapa: Korttimaksu"
+
+#: bambora_payform.php:620
+msgid "Card payment info: "
+msgstr "Korttimaksun lisätiedot:"
+
+#: bambora_payform.php:625
+msgid "Verified: "
+msgstr "Varmennus:"
+
+#: bambora_payform.php:628
+msgid "Card country: "
+msgstr "Kortin maakoodi:"
+
+#: bambora_payform.php:629
+msgid "Client IP country: "
+msgstr "Asiakkaan IP:n maakoodi:"
+
+#: bambora_payform.php:634
+msgid "Error: "
+msgstr "Virhe:"
+
+#: bambora_payform.php:638
+msgid "Payment method: "
+msgstr "Maksutapa:"
+
+#: bambora_payform.php:654
+msgid "Payment is authorized. Use settle option to capture funds."
+msgstr ""
+"Maksu varmennettu. Maksu veloitetaan painamalla Veloita maksu -painiketta."
+
+#: bambora_payform.php:658
+msgid "Payment accepted."
+msgstr "Maksu hyväksytty."
+
+#: bambora_payform.php:666
+msgid "Payment was not accepted."
+msgstr "Maksu epäonnistui."
+
+#: bambora_payform.php:671
+msgid ""
+"Transaction status could not be updated after customer returned from the web "
+"page of a bank. Please use the merchant UI to resolve the payment status."
+msgstr ""
+"Maksun tilaa ei voitu varmentaa asiakkaan palattua palveluumme "
+"verkkopankista. Käytä hallintapaneelia selvittääksesi maksun tilan."
+
+#: bambora_payform.php:676
+msgid ""
+"Maintenance break. The transaction is not created and the user has been "
+"notified and transferred back to the cancel address."
+msgstr "Huoltotauko. Maksua ei luotu, ja asiakaalle on ilmoitettu asiasta."
+
+#: bambora_payform.php:708
+msgid "Payment settled."
+msgstr "Maksu veloitettu."
+
+#: bambora_payform.php:724
+msgid "Settle payment"
+msgstr "Veloita maksu."
+
+#: bambora_payform.php:748
+msgid "Settlement was successful."
+msgstr "Veloitus onnistui."
+
+#: bambora_payform.php:751
+msgid "Settlement failed. Validation failed."
+msgstr "Veloitus epäonnistui. Validointi epäonnistui."
+
+#: bambora_payform.php:754
+msgid ""
+"Settlement failed. Either the payment has already been settled or the "
+"payment gateway refused to settle payment for given transaction."
+msgstr ""
+"Maksua ei voitu veloittaa. Joko maksu on jo veloitettu, tai luottolaitos "
+"hylkäsi veloituspyynnön."
+
+#: bambora_payform.php:757
+msgid "Settlement failed. Unkown error."
+msgstr ""
+"Tuntematon paluuarvo. Mikäli ongelma toistuu, ota yhteyttä "
+"asiakaspalveluumme."
+
+#: bambora_payform.php:764
+msgid "Exception, error: "
+msgstr "Exception, virhe:"
+
+#: bambora_payform.php:802
+msgid "The card is reported lost or stolen."
+msgstr "Kortti on ilmoitettu kadonneeksi tai varastetuksi."
+
+#: bambora_payform.php:804
+msgid ""
+"General decline. The card holder should contact the issuer to find out why "
+"the payment failed."
+msgstr ""
+"Yleinen hylkäys. Kortinhaltijan tulisi ottaa yhteyttä kortinmyöntäjään "
+"selvittääkseen miksi maksu epäonnistui."
+
+#: bambora_payform.php:806
+msgid ""
+"Insufficient funds. The card holder should verify that there is balance on "
+"the account and the online payments are actived."
+msgstr ""
+"Riittämättömät varat. Kortinhaltijan tulisi tarkistaa, että kortilla on "
+"katetta ja verkkomaksaminen on aktivoitu kortille."
+
+#: bambora_payform.php:808
+msgid "Expired card."
+msgstr "Vanhentunut kortti."
+
+#: bambora_payform.php:810
+msgid "Withdrawal amount limit exceeded."
+msgstr "Kortin maksuraja ylittyi."
+
+#: bambora_payform.php:812
+msgid ""
+"Restricted card. The card holder should verify that the online payments are "
+"actived."
+msgstr ""
+"Rajoitettu kortti. Kortinhaltijan tulisi varmistaa, että verkkomaksaminen on "
+"aktivoitu kortille."
+
+#: bambora_payform.php:814
+msgid ""
+"Timeout communicating with the acquirer. The payment should be tried again "
+"later."
+msgstr ""
+"Yhteysongelma korttimaksujen prosessoijaan. Maksua tulisi yrittää uudelleen."
+
+#: bambora_payform.php:825
+msgid "3-D Secure was used."
+msgstr "3-D Secure varmennettu tapahtuma."
+
+#: bambora_payform.php:827
+msgid "3-D Secure was not used."
+msgstr "3-D Secure varmennusta ei käytetty."
+
+#: bambora_payform.php:829
+msgid ""
+"3-D Secure was attempted but not supported by the card issuer or the card "
+"holder is not participating."
+msgstr ""
+"3-D Secure varmennusta yritettiin, mutta kortinmyöntäjä tai -haltija ei "
+"käytä varmennusta."
+
+#. Name of the plugin
+msgid "Bambora PayForm Payment Gateway"
+msgstr "Bambora PayForm maksulisäosa"
+
+#. Description of the plugin
+msgid "Bambora PayForm Payment Gateway Integration for Woocommerce"
+msgstr "Bambora PayForm maksurajapinnan integraatio Woocommerceen"
