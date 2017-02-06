@@ -1,4 +1,4 @@
-=== WooCommerce Bambora PayForm ===
+﻿=== Bambora PayForm for Woocommerce ===
 Contributors: hsuvant
 Donate link: 
 Tags: payment gateway, bambora, payform, verkkomaksut, pankit
@@ -14,7 +14,7 @@ Bambora PayForm plugin for Woocommerce.
 
 Bambora PayForm plugin allows you to accept e-payments through most Finnish banks, credit cards and credit invoices. This plugin uses the Bambora PayForm Payment API. 
 
-This is a plugin for integrating Bambora PayForm payment gateway with your Woocommerce store. Accept payments with this plugin, you need to have an active contract with [Bambora](https://www.bambora.com/fi/fi/maksuratkaisut/verkkokauppa/tuotteet/payform/).
+This is a plugin for integrating Bambora PayForm (EU) payment gateway with your Woocommerce store. Accept payments with this plugin, you need to have an active contract with [Bambora](https://www.bambora.com/fi/fi/maksuratkaisut/verkkokauppa/tuotteet/payform/).
 
 = Supported features =
 * Accept payments securely

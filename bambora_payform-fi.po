@@ -2,11 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Bambora PayForm Payment Gateway\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-18 13:35+0000\n"
-"PO-Revision-Date: 2016-11-18 13:35+0000\n"
+"POT-Creation-Date: 2017-02-06 08:37+0000\n"
+"PO-Revision-Date: 2017-02-06 08:37+0000\n"
 "Last-Translator: payform <payform@bambora.com>\n"
-"Language-Team: Finnish\n"
-"Language: fi\n"
+"Language-Team: Finnish (Finland)\n"
+"Language: fi-FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,24 +23,18 @@ msgstr ""
 "X-Poedit-SearchPath-0: ."
 
 #. URI of the plugin
-#. Author URI of the plugin
-msgid "https://payform.bambora.fi"
-msgstr ""
-"https://payform.bambora.fi\n"
+msgid "https://payform.bambora.com"
+msgstr "https://payform.bambora.com"
 
-#. Author of the plugin
-msgid "Bambora"
-msgstr "Bambora"
-
-#: bambora_payform.php:38 bambora_payform.php:116
+#: bambora_payform.php:37 bambora_payform.php:115
 msgid "Bambora PayForm"
 msgstr "Bambora PayForm"
 
-#: bambora_payform.php:39
+#: bambora_payform.php:38
 msgid "Bambora PayForm w3-API Payment Gateway integration for Woocommerce"
 msgstr "Bambora PayForm maksurajapinnan integraatio Woocommerceen"
 
-#: bambora_payform.php:80
+#: bambora_payform.php:79
 msgid ""
 "PHP cURL is not installed, install cURL to use Bambora PayForm payment "
 "gateway."
@@ -48,35 +42,35 @@ msgstr ""
 "PHP cURL ei ole käytössä. Asenna cURL käyttääksesi Bambora PayForm "
 "maksulisäosaa."
 
-#: bambora_payform.php:102
+#: bambora_payform.php:101
 msgid "General options"
 msgstr "Yleiset asetukset"
 
-#: bambora_payform.php:107
+#: bambora_payform.php:106
 msgid "Enable/Disable"
 msgstr "Ota käyttöön/ois käytöstä"
 
-#: bambora_payform.php:109
+#: bambora_payform.php:108
 msgid "Enable Bambora PayForm"
 msgstr "Ota Bambora PayForm käyttöön"
 
-#: bambora_payform.php:113
+#: bambora_payform.php:112
 msgid "Title"
 msgstr "Otsikko"
 
-#: bambora_payform.php:115
+#: bambora_payform.php:114
 msgid "This controls the title which the user sees during checkout."
 msgstr "Maksutavan kassasivulla näkyvä otsikko."
 
-#: bambora_payform.php:119
+#: bambora_payform.php:118
 msgid "Description"
 msgstr "Kuvaus"
 
-#: bambora_payform.php:120
+#: bambora_payform.php:119
 msgid "Customer Message"
 msgstr "Asiakkaalle näkyvä maksutavan kuvaus."
 
-#: bambora_payform.php:122
+#: bambora_payform.php:121
 msgid ""
 "Bambora PayForm -palvelussa voit maksaa ostoksesi turvallisesti verkkopankin "
 "kautta, luottokortilla tai luottolaskulla."
@@ -84,60 +78,60 @@ msgstr ""
 "Bambora PayForm -palvelussa voit maksaa ostoksesi turvallisesti verkkopankin "
 "kautta, luottokortilla tai luottolaskulla."
 
-#: bambora_payform.php:125
+#: bambora_payform.php:124
 msgid "Private key"
 msgstr "Yksityinen salausavain"
 
-#: bambora_payform.php:127
+#: bambora_payform.php:126
 msgid "Private key of the the sub-merchant"
 msgstr "Alikauppiaan yksityinen salausavain"
 
-#: bambora_payform.php:131
+#: bambora_payform.php:130
 msgid "API key"
 msgstr "Rajapinta-avain"
 
-#: bambora_payform.php:133
+#: bambora_payform.php:132
 msgid "API key of the the sub-merchant"
 msgstr "Alikauppiaan rajapinta-avain"
 
-#: bambora_payform.php:137
+#: bambora_payform.php:136
 msgid "Order number prefix"
 msgstr "Tilausnumeron etuliite"
 
-#: bambora_payform.php:139
+#: bambora_payform.php:138
 msgid "Prefix to avoid order number duplication"
 msgstr ""
 "Etuliitteellä vältetään samanlaisten tilaustunnusten luonti, jos "
 "kauppiastunnus on käytössä useassa verkkokaupassa."
 
-#: bambora_payform.php:143
+#: bambora_payform.php:142
 msgid "Send products"
 msgstr "Lähetä tuote-erittely"
 
-#: bambora_payform.php:145
+#: bambora_payform.php:144
 msgid "Send product breakdown to Bambora PayForm."
 msgstr "Lähetä tuote-erittely maksurajapintaan."
 
-#: bambora_payform.php:149
+#: bambora_payform.php:148
 msgid "Send payment confirmation"
 msgstr "Lähetä maksuvahvistus"
 
-#: bambora_payform.php:151
+#: bambora_payform.php:150
 msgid ""
 "Send Bambora PayForm's payment confirmation email to the customer's billing "
 "e-mail."
 msgstr ""
 "Lähetä Bambora PayFormin maksuvahvitus asiakkaan sähköpostiosoitteesen."
 
-#: bambora_payform.php:155
+#: bambora_payform.php:154
 msgid "Embedded payment options"
 msgstr "Upotettujen maksutapojen asetukset"
 
-#: bambora_payform.php:160
+#: bambora_payform.php:159
 msgid "Enable embedded payment"
 msgstr "Ota käyttöön maksutapojen upotus"
 
-#: bambora_payform.php:162
+#: bambora_payform.php:161
 msgid ""
 "Enable this if you want to use embed the payment methods to the checkout-"
 "page."
@@ -145,18 +139,18 @@ msgstr ""
 "Ota upotus käyttöön jos haluat upottaa maksupainikkeet verkkokaupan "
 "kassasivulle."
 
-#: bambora_payform.php:169
+#: bambora_payform.php:168
 msgid ""
 "Retrieve enabled payment methods automatically for embedded payment "
 "(Recommended)"
 msgstr ""
 "Hae automaattisesti kauppiastilille aktivoidut maksutavat upotusta varten."
 
-#: bambora_payform.php:176
+#: bambora_payform.php:175
 msgid "Manage payment methods"
 msgstr "Hallitse maksutapoja"
 
-#: bambora_payform.php:178
+#: bambora_payform.php:177
 msgid ""
 "You can enable all of these if you are using the option to automatically "
 "retrieve your enabled payment methods, and the payment methods will "
@@ -166,43 +160,43 @@ msgstr ""
 "ottaa käyttöön kaikki alla olevat maksutavat ja kaikki käytettävissä olevat "
 "maksutavat tulevat näkyviin kassasivulle."
 
-#: bambora_payform.php:181
+#: bambora_payform.php:180
 msgid "Banks"
 msgstr "Verkkopankit"
 
-#: bambora_payform.php:183
+#: bambora_payform.php:182
 msgid "Enable bank payments in the Bambora PayForm payment page."
 msgstr "Ota käyttöön verkkopankkipainikkeet maksusivulla."
 
-#: bambora_payform.php:187
+#: bambora_payform.php:186
 msgid "Card payments"
 msgstr "Korttimaksut"
 
-#: bambora_payform.php:189
+#: bambora_payform.php:188
 msgid "Enable credit cards in the Bambora PayForm payment page."
 msgstr "Ota käyttöön luottokorttipainikkeet maksusivulla."
 
-#: bambora_payform.php:193
+#: bambora_payform.php:192
 msgid "Credit invoices"
 msgstr "Luottolaskut ja osamaksut"
 
-#: bambora_payform.php:195
+#: bambora_payform.php:194
 msgid "Enable credit invoices in the Bambora PayForm payment page."
 msgstr "Ota käyttöön luottolasku- ja osamaksu-maksutavat maksusivulla."
 
-#: bambora_payform.php:199
+#: bambora_payform.php:198
 msgid "Maksukaista Lasku"
 msgstr "Maksukaista Lasku"
 
-#: bambora_payform.php:201
+#: bambora_payform.php:200
 msgid "Enable Maksukaista Lasku in the Bambora PayForm payment page."
 msgstr "Ota käyttöön Maksukaista Lasku maksusivulla."
 
-#: bambora_payform.php:205
+#: bambora_payform.php:204
 msgid "Laskuyritykselle"
 msgstr "Laskuyritykselle"
 
-#: bambora_payform.php:207
+#: bambora_payform.php:206
 msgid "Enable Laskuyritykselle in the Bambora PayForm payment page."
 msgstr "Ota käyttöön Laskuyritykselle-maksutapa maksusivulla."
 
@@ -393,3 +387,13 @@ msgstr "Bambora PayForm maksulisäosa"
 #. Description of the plugin
 msgid "Bambora PayForm Payment Gateway Integration for Woocommerce"
 msgstr "Bambora PayForm maksurajapinnan integraatio Woocommerceen"
+
+#. Author of the plugin
+msgid "Bambora"
+msgstr "Bambora"
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://payform.bambora.fi"
+msgstr ""
+"https://payform.bambora.fi\n"
