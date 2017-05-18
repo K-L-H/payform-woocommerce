@@ -3,7 +3,7 @@
 Plugin Name: Bambora PayForm Payment Gateway
 Plugin URI: https://payform.bambora.com
 Description: Bambora PayForm Payment Gateway Integration for Woocommerce
-Version: 1.0.0
+Version: 1.0.1
 Author: Bambora
 Author URI: https://payform.bambora.com
 */
@@ -211,15 +211,17 @@ function init_bambora_payform_gateway()
 
 		function payment_fields()
 		{
-			global $woocommerce;
+			$old_wc = version_compare(WC_VERSION, '3.0.0', '<');
 
 			$total = 0;
-			$cart_total = (int)(round($woocommerce->cart->total*100, 0));
+			$wc_cart_total = $old_wc ? WC()->cart->total : WC()->cart->get_total();
+			$cart_total = (int)(round($wc_cart_total*100, 0));
 
 			if(get_query_var('order-pay') != '')
 			{
 				$order = new WC_Order(get_query_var('order-pay'));
-				$total = (int)(round($order->order_total*100, 0));
+				$wc_order_total = $old_wc ? $order->order_total : $order->get_total();
+				$total = (int)(round($wc_order_total*100, 0));
 			}
 
 			if ($this->description)
@@ -361,14 +363,27 @@ function init_bambora_payform_gateway()
 
 		function process_payment($order_id)
 		{
-			global $woocommerce;
-
 			if ($_POST['payment_method'] != 'bambora_payform')
 				return false;
 
+			$old_wc = version_compare(WC_VERSION, '3.0.0', '<');
+
 			$order = new WC_Order($order_id);
+
+			$wc_order_id = $old_wc ? $order->id : $order->get_id();
+			$wc_order_total = $old_wc ? $order->order_total : $order->get_total();;
+			$wc_b_first_name = $old_wc ? $order->billing_first_name : $order->get_billing_first_name();;
+			$wc_b_last_name = $old_wc ? $order->billing_last_name : $order->get_billing_last_name();;
+			$wc_b_email = $old_wc ? $order->billing_email : $order->get_billing_email();;
+			$wc_b_address_1 = $old_wc ? $order->billing_address_1 : $order->get_billing_address_1();;
+			$wc_b_address_2 = $old_wc ? $order->billing_address_2 : $order->get_billing_address_2();;
+			$wc_b_city = $old_wc ? $order->billing_city : $order->get_billing_city();;
+			$wc_b_postcode = $old_wc ? $order->billing_postcode : $order->get_billing_postcode();;
+			$wc_order_shipping = $old_wc ? $order->order_shipping : $order->get_shipping_total();
+			$wc_order_shipping_tax = $old_wc ? $order->order_shipping_tax : $order->get_shipping_tax();
+			
 			$bambora_payform_selected_bank = isset( $_POST['bambora_payform_selected_bank'] ) ? wc_clean( $_POST['bambora_payform_selected_bank'] ) : '';
-			update_post_meta( $order->id, '_bambora_payform_selected_bank_', $bambora_payform_selected_bank );
+			update_post_meta( $wc_order_id, '_bambora_payform_selected_bank_', $bambora_payform_selected_bank );
 
 			$order_number = (strlen($this->ordernumber_prefix)  > 0) ?  $this->get_option('ordernumber_prefix') . '_'  .$order_id : $order_id;
 			$order_number .=  '-' . str_pad(time().rand(0,9999), 5, "1", STR_PAD_RIGHT);
@@ -382,16 +397,17 @@ function init_bambora_payform_gateway()
 
 			$return_url = add_query_arg( array('wc-api' => get_class( $this ) ,'order_id' => $order_id), $redirect_url );
 
-			$amount =  (int)(round($order->order_total*100, 0));			
+			$amount =  (int)(round($wc_order_total*100, 0));			
 			update_post_meta($order_id, 'bambora_payform_is_settled', 1);
 			update_post_meta($order_id, 'bambora_payform_return_code', 99);
 
 			$finn_langs = array('fi-FI', 'fi', 'fi_FI');
-			$sv_langs = array('sv-SE', 'sv');
+			$sv_langs = array('sv-SE', 'sv', 'sv_SE');
+			$current_locale = get_locale();
 
-			if(in_array(get_bloginfo('language'), $finn_langs))
+			if(in_array($current_locale, $finn_langs))
 				$lang = 'fi';
-			else if (in_array(get_bloginfo('language'), $sv_langs))
+			else if (in_array($current_locale, $sv_langs))
 				$lang = 'sv';
 			else
 				$lang = 'en';
@@ -399,7 +415,7 @@ function init_bambora_payform_gateway()
 			$payment = new Bambora\PayForm($this->api_key, $this->private_key);
 
 			if($this->send_receipt == 'yes')
-				$receipt_mail = $order->billing_email;
+				$receipt_mail = $wc_b_email;
 			else
 				$receipt_mail = '';
 
@@ -414,12 +430,12 @@ function init_bambora_payform_gateway()
 
 			$payment->addCustomer(
 				array(
-					'firstname' => htmlspecialchars($order->billing_first_name), 
-					'lastname' => htmlspecialchars($order->billing_last_name), 
-					'email' => htmlspecialchars($order->billing_email), 
-					'address_street' => htmlspecialchars($order->billing_address_1.' '.$order->billing_address_2),
-					'address_city' => htmlspecialchars($order->billing_city),
-					'address_zip' => htmlspecialchars($order->billing_postcode)
+					'firstname' => htmlspecialchars($wc_b_first_name), 
+					'lastname' => htmlspecialchars($wc_b_last_name), 
+					'email' => htmlspecialchars($wc_b_email), 
+					'address_street' => htmlspecialchars($wc_b_address_1.' '.$wc_b_address_2),
+					'address_city' => htmlspecialchars($wc_b_city),
+					'address_zip' => htmlspecialchars($wc_b_postcode)
 				)
 			);
 
@@ -427,13 +443,14 @@ function init_bambora_payform_gateway()
 			$total_amount = 0;
 			$order_items = $order->get_items();
 			foreach($order_items as $item) {
+				$line_tax = ($item['line_total'] > 0) ? round($item['line_tax']/$item['line_total']*100,0) : 0;
 				$product = array(
 					'title' => $item['name'],
 					'id' => $item['product_id'],
 					'count' => $item['qty'],
 					'pretax_price' => (int)(round(($item['line_total']/$item['qty'])*100, 0)),
 					'price' => (int)(round((($item['line_total'] + $item['line_tax'] ) / $item['qty'])*100, 0)),
-					'tax' => round($item['line_tax']/$item['line_total']*100,0),
+					'tax' => $line_tax,
 					'type' => 1
 				);
 				$total_amount += $product['price'] * $product['count'];
@@ -444,32 +461,18 @@ function init_bambora_payform_gateway()
 		 	foreach($shipping_items as $s_method){
 				$shipping_method_id = $s_method['method_id'] ;
 			}
-		 	if($order->order_shipping > 0){
+		 	if($wc_order_shipping > 0){
 			 	$product = array(
 					'title' => $order->get_shipping_method(),
 					'id' => $shipping_method_id,
 					'count' => 1,
-					'pretax_price' => (int)(round($order->order_shipping*100, 0)),
-					'price' => (int)(round(($order->order_shipping_tax+$order->order_shipping)*100, 0)),
-					'tax' => round($order->order_shipping_tax/$order->order_shipping*100,0),
+					'pretax_price' => (int)(round($wc_order_shipping*100, 0)),
+					'price' => (int)(round(($wc_order_shipping_tax+$wc_order_shipping)*100, 0)),
+					'tax' => round(($wc_order_shipping_tax/$wc_order_shipping)*100,0),
 					'type' => 2
 				);
 				$total_amount += $product['price'] * $product['count'];
 				array_push($products, $product);				
-			}
-
-			if($order->order_discount > 0){
-			 	$product = array(
-					'title' => __( 'Order discount', 'bambora_payform' ),
-					'id' => '',
-					'count' => 1,
-					'pretax_price' => -(int)(round($order->order_discount*100, 0)),
-					'price' => -(int)(round($order->order_discount*100, 0)),
-					'tax' => '0',
-					'type' => 4
-				);
-				$total_amount += $product['price'] * $product['count'];
-				array_push($products, $product);
 			}
 
 			if($this->send_items == 'yes' && $total_amount == $amount)
@@ -531,7 +534,7 @@ function init_bambora_payform_gateway()
 					update_post_meta($order_id, 'bambora_payform_order_number', $order_number);
 
 					$url = Bambora\PayForm::API_URL."/token/".$response->token;
-					$woocommerce->cart->empty_cart();
+					WC()->cart->empty_cart();
 					return array(
 						'result'   => 'success',
 						'redirect'  => $url
@@ -565,7 +568,7 @@ function init_bambora_payform_gateway()
 		function get_order_by_id_and_order_number($order_id, $order_number)
 		{
 			$order = New WC_Order($order_id);
-			if($order_number == get_post_meta( $order->id, 'bambora_payform_order_number', true ))
+			if($order_number == get_post_meta($order_id, 'bambora_payform_order_number', true ))
 				return $order;
 
 			return null;
@@ -573,7 +576,7 @@ function init_bambora_payform_gateway()
 
 		function check_bambora_payform_response()
 		{
-			global $woocommerce;
+			$old_wc = version_compare(WC_VERSION, '3.0.0', '<');
 
 			if(count($_GET))
 			{
@@ -601,11 +604,14 @@ function init_bambora_payform_gateway()
 				$order = $this->get_order_by_id_and_order_number($order_id, $order_number);
 				$mk_on = get_post_meta($order_id, 'bambora_payform_order_number', true );
 
+				$wc_order_id = $old_wc ? $order->id : $order->get_id();
+				$wc_order_status = $old_wc ? $order->status : $order->get_status();
+
 				if($authcode_confirm === $authcode && $order)
 				{
-					$current_return_code = get_post_meta($order->id, 'bambora_payform_return_code', true);
+					$current_return_code = get_post_meta($wc_order_id, 'bambora_payform_return_code', true);
 
-					if($order->status != 'processing' && $current_return_code != 0)
+					if($wc_order_status != 'processing' && $current_return_code != 0)
 					{
 						$pbw_extra_info = '';
 						update_post_meta($order_id, 'bambora_payform_return_code', $return_code);
@@ -659,7 +665,7 @@ function init_bambora_payform_gateway()
 
 								$order->add_order_note($pbw_note . $pbw_extra_info);
 								$order->payment_complete();
-								$woocommerce->cart->empty_cart();
+								WC()->cart->empty_cart();
 								break;
 
 							case 1:
@@ -689,7 +695,6 @@ function init_bambora_payform_gateway()
 
 		function bambora_payform_settle_payment($order)
 		{
-			global $woocommerce;
 			$settle_field = get_post_meta( $order->id, 'bambora_payform_is_settled', true );
 			$settle_check = empty($settle_field) && $settle_field == "0";
 			if(!$settle_check)

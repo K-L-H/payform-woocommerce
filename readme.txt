@@ -3,7 +3,7 @@ Contributors: hsuvant
 Donate link: 
 Tags: payment gateway, bambora, payform, verkkomaksut, pankit
 Requires at least: 3.3
-Tested up to: 4.7.2
+Tested up to: 4.7.5
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
