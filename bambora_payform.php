@@ -3,7 +3,7 @@
 Plugin Name: Bambora PayForm Payment Gateway
 Plugin URI: https://payform.bambora.com
 Description: Bambora PayForm Payment Gateway Integration for Woocommerce
-Version: 1.0.1
+Version: 1.0.2
 Author: Bambora
 Author URI: https://payform.bambora.com
 */
@@ -214,7 +214,8 @@ function init_bambora_payform_gateway()
 			$old_wc = version_compare(WC_VERSION, '3.0.0', '<');
 
 			$total = 0;
-			$wc_cart_total = $old_wc ? WC()->cart->total : WC()->cart->get_total();
+			
+			$wc_cart_total = WC()->cart->total;
 			$cart_total = (int)(round($wc_cart_total*100, 0));
 
 			if(get_query_var('order-pay') != '')
