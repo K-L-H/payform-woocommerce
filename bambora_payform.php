@@ -3,7 +3,7 @@
 Plugin Name: Bambora PayForm Payment Gateway
 Plugin URI: https://payform.bambora.com
 Description: Bambora PayForm Payment Gateway Integration for Woocommerce
-Version: 1.0.4
+Version: 1.0.5
 Author: Bambora
 Author URI: https://payform.bambora.com
 */
@@ -391,19 +391,17 @@ function init_bambora_payform_gateway()
 			$order = new WC_Order($order_id);
 
 			$wc_order_id = $old_wc ? $order->id : $order->get_id();
-			$wc_order_total = $old_wc ? $order->order_total : $order->get_total();;
-			$wc_b_first_name = $old_wc ? $order->billing_first_name : $order->get_billing_first_name();;
-			$wc_b_last_name = $old_wc ? $order->billing_last_name : $order->get_billing_last_name();;
-			$wc_b_email = $old_wc ? $order->billing_email : $order->get_billing_email();;
-			$wc_b_address_1 = $old_wc ? $order->billing_address_1 : $order->get_billing_address_1();;
-			$wc_b_address_2 = $old_wc ? $order->billing_address_2 : $order->get_billing_address_2();;
-			$wc_b_city = $old_wc ? $order->billing_city : $order->get_billing_city();;
-			$wc_b_postcode = $old_wc ? $order->billing_postcode : $order->get_billing_postcode();;
+			$wc_order_total = $old_wc ? $order->order_total : $order->get_total();
+			$wc_b_first_name = $old_wc ? $order->billing_first_name : $order->get_billing_first_name();
+			$wc_b_last_name = $old_wc ? $order->billing_last_name : $order->get_billing_last_name();
+			$wc_b_email = $old_wc ? $order->billing_email : $order->get_billing_email();
+			$wc_b_address_1 = $old_wc ? $order->billing_address_1 : $order->get_billing_address_1();
+			$wc_b_address_2 = $old_wc ? $order->billing_address_2 : $order->get_billing_address_2();
+			$wc_b_city = $old_wc ? $order->billing_city : $order->get_billing_city();
+			$wc_b_postcode = $old_wc ? $order->billing_postcode : $order->get_billing_postcode();
 			$wc_order_shipping = $old_wc ? $order->order_shipping : $order->get_shipping_total();
 			$wc_order_shipping_tax = $old_wc ? $order->order_shipping_tax : $order->get_shipping_tax();
-			
 			$bambora_payform_selected_bank = isset( $_POST['bambora_payform_selected_bank'] ) ? wc_clean( $_POST['bambora_payform_selected_bank'] ) : '';
-			update_post_meta( $wc_order_id, '_bambora_payform_selected_bank_', $bambora_payform_selected_bank );
 
 			$order_number = (strlen($this->ordernumber_prefix)  > 0) ?  $this->get_option('ordernumber_prefix') . '_'  .$order_id : $order_id;
 			$order_number .=  '-' . str_pad(time().rand(0,9999), 5, "1", STR_PAD_RIGHT);
@@ -417,7 +415,9 @@ function init_bambora_payform_gateway()
 
 			$return_url = add_query_arg( array('wc-api' => get_class( $this ) ,'order_id' => $order_id), $redirect_url );
 
-			$amount =  (int)(round($wc_order_total*100, 0));			
+			$amount =  (int)(round($wc_order_total*100, 0));
+
+			update_post_meta($order_id, '_bambora_payform_selected_bank_', $bambora_payform_selected_bank );
 			update_post_meta($order_id, 'bambora_payform_is_settled', 1);
 			update_post_meta($order_id, 'bambora_payform_return_code', 99);
 
@@ -636,7 +636,15 @@ function init_bambora_payform_gateway()
 					if($wc_order_status != 'processing' && $current_return_code != 0)
 					{
 						$pbw_extra_info = '';
-						update_post_meta($order_id, 'bambora_payform_return_code', $return_code);
+
+						if(version_compare(WC_VERSION, '2.6.0', '<'))
+							update_post_meta($order_id, 'bambora_payform_return_code', $return_code);
+						else
+						{
+							$order->update_meta_data('bambora_payform_return_code', $return_code);
+    						$order->save();
+						}
+
 						include_once(plugin_dir_path( __FILE__ ).'includes/lib/bambora_payform_loader.php');
 						$payment = new Bambora\PayForm($this->api_key, $this->private_key);
 						try
@@ -678,9 +686,14 @@ function init_bambora_payform_gateway()
 								if($settled == 0)
 								{
 									$is_settled = 0;
-									update_post_meta($order_id, 'bambora_payform_is_settled', $is_settled);
+									if(version_compare(WC_VERSION, '2.6.0', '<'))
+										update_post_meta($order_id, 'bambora_payform_is_settled', $is_settled);
+									else
+									{
+										$order->update_meta_data('bambora_payform_is_settled', $is_settled);
+    									$order->save();
+    								}
 									$pbw_note = __('Bambora PayForm order', 'bambora_payform') . ' ' . $mk_on . "<br>-<br>" . __('Payment is authorized. Use settle option to capture funds.', 'bambora_payform') . "<br>";
-									
 								}
 								else
 									$pbw_note = __('Bambora PayForm order', 'bambora_payform') . ' ' . $mk_on . "<br>-<br>" . __('Payment accepted.', 'bambora_payform') . "<br>";
@@ -717,22 +730,32 @@ function init_bambora_payform_gateway()
 
 		function bambora_payform_settle_payment($order)
 		{
-			$settle_field = get_post_meta( $order->id, 'bambora_payform_is_settled', true );
+			$old_wc = version_compare(WC_VERSION, '3.0.0', '<');
+			$wc_order_id = $old_wc ? $order->id : $order->get_id();			
+
+			$settle_field = get_post_meta( $wc_order_id, 'bambora_payform_is_settled', true );
 			$settle_check = empty($settle_field) && $settle_field == "0";
 			if(!$settle_check)
 				return;
 
-			$url = admin_url('post.php?post=' . absint( $order->id ) . '&action=edit');
+			$url = admin_url('post.php?post=' . absint( $wc_order_id ) . '&action=edit');
 
 			if(isset($_GET['bambora_payform_settle']))
 			{
-				$order_number = get_post_meta( $order->id, 'bambora_payform_order_number', true );
+				$order_number = get_post_meta( $wc_order_id, 'bambora_payform_order_number', true );
 				$settlement_msg = '';
 
 				if($this->process_settlement($order_number, $settlement_msg))
 				{
-					update_post_meta($order->id, 'bambora_payform_is_settled', 1);
 					$order->add_order_note(__('Payment settled.', 'bambora_payform'));
+					
+					if(version_compare(WC_VERSION, '2.6.0', '<'))
+						update_post_meta($wc_order_id, 'bambora_payform_is_settled', 1);
+					else
+					{
+						$order->update_meta_data('bambora_payform_is_settled', 1);
+    					$order->save();
+    				}
 					$settlement_result = '1';
 				}
 				else
