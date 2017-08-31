@@ -3,7 +3,7 @@
 Plugin Name: Bambora PayForm Payment Gateway
 Plugin URI: https://payform.bambora.com
 Description: Bambora PayForm Payment Gateway Integration for Woocommerce
-Version: 1.0.3
+Version: 1.0.4
 Author: Bambora
 Author URI: https://payform.bambora.com
 */
@@ -50,6 +50,7 @@ function init_bambora_payform_gateway()
 			$this->description = $this->get_option('bambora_payform_description');
 
 			$this->banks = $this->get_option('banks');
+			$this->wallets = $this->get_option('wallets');
 			$this->ccards = $this->get_option('ccards');
 			$this->cinvoices = $this->get_option('cinvoices');
 			$this->arvato = $this->get_option('arvato');
@@ -182,6 +183,12 @@ function init_bambora_payform_gateway()
 					'label' => __( 'Enable bank payments in the Bambora PayForm payment page.', 'bambora_payform' ),
 					'default' => 'yes'
 				),
+				'wallets' => array(
+					'title' => __( 'Wallets', 'bambora_payform' ),
+					'type' => 'checkbox',
+					'label' => __( 'Enable wallet services in the Bambora PayForm payment page.', 'bambora_payform' ),
+					'default' => 'yes'
+				),
 				'ccards' => array(
 					'title' => __( 'Card payments', 'bambora_payform' ),
 					'type' => 'checkbox',
@@ -234,7 +241,7 @@ function init_bambora_payform_gateway()
 			{
 				if($this->dynamic == 'yes')
 				{
-					$creditcards = $banks = $creditinvoices = '';
+					$creditcards = $banks = $creditinvoices = $wallets = '';
 					include(plugin_dir_path( __FILE__ ).'includes/lib/bambora_payform_loader.php');
 					$payment_methods = new Bambora\PayForm($this->api_key, $this->private_key);
 					try
@@ -254,6 +261,10 @@ function init_bambora_payform_gateway()
 								if($method->group == 'creditcards'  && $this->ccards == 'yes')
 								{
 									$creditcards .= '<div id="bambora-payform-button-creditcards" class="bank-button"><img alt="' . $method->name . '" src="' . $plugin_url.$img . '"/></div>';
+								}
+								else if($method->group == 'wallets' && $this->wallets == 'yes')
+								{
+									$wallets .= '<div id="bambora-payform-button-' . $method->selected_value . '" class="bank-button"><img alt="' . $method->name . '" src="' . $plugin_url.$img . '"/></div>';
 								}
 								else if($method->group == 'banks' && $this->banks == 'yes')
 								{
@@ -283,6 +294,9 @@ function init_bambora_payform_gateway()
 					if($creditcards != '')
 						echo '<div>'.wpautop(wptexturize(__( 'Payment card', 'bambora_payform' ))).'</div>' . $creditcards;
 
+					if($wallets != '')
+						echo '<div>'.wpautop(wptexturize(__( 'Wallet services', 'bambora_payform' ))).'</div>' . $wallets;
+
 					if($banks != '')
 						echo '<div>'.wpautop(wptexturize(__( 'Internet banking', 'bambora_payform' ))).'</div>' . $banks;
 
@@ -305,6 +319,11 @@ function init_bambora_payform_gateway()
 						echo '<div>'.wpautop(wptexturize(__( 'Payment card', 'bambora_payform' ))).'</div>';
 						echo '<div id="bambora-payform-button-creditcards" class="bank-button"><img alt="Visa" src="'. $plugin_url .'assets/images/visa.png"/></div>'; //visa
 						echo '<div id="bambora-payform-button-creditcards" class="bank-button"><img alt="MasterCard" src="'. $plugin_url .'assets/images/mastercard.png"/></div>'; //master
+					}
+					if($this->wallets == 'yes')
+					{
+						echo '<div>'.wpautop(wptexturize(__( 'Wallet services', 'bambora_payform' ))).'</div>';
+						echo '<div id="bambora-payform-button-mobilepay" class="bank-button"><img alt="MobilePay" src="'. $plugin_url .'assets/images/mobilepay.png"/></div>';
 					}
 					if($this->banks == 'yes')
 					{
@@ -503,6 +522,8 @@ function init_bambora_payform_gateway()
 				$mk_selected = array();
 				if($this->banks == 'yes')
 					$mk_selected[] = 'banks';
+				if($this->wallets == 'yes')
+					$mk_selected[] = 'wallets';
 				if($this->ccards == 'yes')
 					$mk_selected[] = 'creditcards';
 				if($this->cinvoices == 'yes')
