@@ -3,7 +3,7 @@
  * Plugin Name: Bambora PayForm Payment Gateway
  * Plugin URI: https://payform.bambora.com/docs
  * Description: Bambora PayForm Payment Gateway Integration for Woocommerce
- * Version: 2.0.0
+ * Version: 2.0.1
  * Author: Bambora
  * Author URI: https://www.bambora.com/fi/fi/Verkkokauppa/Payform/
  * Text Domain: bambora-payform-payment-gateway
