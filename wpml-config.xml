@@ -2,6 +2,7 @@
 	<admin-texts>
 		<key name="woocommerce_bambora_payform_settings">
 			<key name="bambora_payform_description" />
+			<key name="bambora_payform_payment_description" />
 			<key name="title" />
 		</key>
 	</admin-texts> 

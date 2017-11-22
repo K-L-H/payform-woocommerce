@@ -3,7 +3,7 @@
  * Plugin Name: Bambora PayForm Payment Gateway
  * Plugin URI: https://payform.bambora.com/docs
  * Description: Bambora PayForm Payment Gateway Integration for Woocommerce
- * Version: 2.0.1
+ * Version: 2.0.2
  * Author: Bambora
  * Author URI: https://www.bambora.com/fi/fi/Verkkokauppa/Payform/
  * Text Domain: bambora-payform-payment-gateway
@@ -35,7 +35,7 @@ function init_bambora_payform_gateway()
 		function __construct()
 		{
 			$this->id = 'bambora_payform';
-			$this->has_fields = false;
+			$this->has_fields = true;
 			$this->method_title = __( 'Bambora PayForm', 'bambora-payform-payment-gateway' );
 			$this->method_description = __( 'Bambora PayForm w3-API Payment Gateway integration for Woocommerce', 'bambora-payform-payment-gateway' );
 
@@ -50,6 +50,7 @@ function init_bambora_payform_gateway()
 
 			$this->ordernumber_prefix = $this->get_option('ordernumber_prefix');
 			$this->description = $this->get_option('bambora_payform_description');
+			$this->payment_description = $this->get_option('bambora_payform_payment_description');
 
 			$this->banks = $this->get_option('banks');
 			$this->wallets = $this->get_option('wallets');
@@ -124,10 +125,16 @@ function init_bambora_payform_gateway()
 				),
 				'bambora_payform_description' => array(
 					'title' => __( 'Description', 'bambora-payform-payment-gateway' ),
-					'description' => __( 'Customer Message', 'bambora-payform-payment-gateway' ),
+					'description' => __( 'This controls the first part of the description which the user sees during checkout.', 'bambora-payform-payment-gateway' ),
 					'type' => 'textarea',
 					'default' => __( 'Pay safely with Finnish internet banking, payment cards, wallet services or credit invoices.', 'bambora-payform-payment-gateway')
 				),
+				'bambora_payform_payment_description' => array(
+					'title' => __( 'Second part of description', 'bambora-payform-payment-gateway' ),
+					'description' => __( 'This controls the second part of the description which the user sees during checkout.', 'bambora-payform-payment-gateway' ),
+					'type' => 'textarea',
+					'default' => __( 'Choose your payment method and click Pay for Order', 'bambora-payform-payment-gateway' )
+				),				
 				'private_key' => array(
 					'title' => __( 'Private key', 'bambora-payform-payment-gateway' ),
 					'type' => 'text',
@@ -261,8 +268,8 @@ function init_bambora_payform_gateway()
 				$total = (int)(round($wc_order_total*100, 0));
 			}
 
-			if ($this->description)
-				echo wpautop(wptexturize(__($this->description, 'bambora-payform-payment-gateway')));
+			if (!empty($this->description))
+				echo wpautop(wptexturize($this->description));
 
 			$plugin_url = untrailingslashit(plugins_url(basename(plugin_dir_path(__FILE__)), basename(__FILE__))) . '/';
 
@@ -319,8 +326,10 @@ function init_bambora_payform_gateway()
 					}
 
 					$clear_both = '<div style="display: block; clear: both;"></div>';
+					
+					if (!empty($this->payment_description))
+						echo wpautop(wptexturize($this->payment_description));
 
-					echo wpautop(wptexturize(__( 'Choose your payment method and click Pay for Order', 'bambora-payform-payment-gateway' )));
 					echo '<br/><div id="bambora-payform-bank-payments">';
 					if($creditcards != '')
 						echo '<div>'.wpautop(wptexturize(__( 'Payment card', 'bambora-payform-payment-gateway' ))) . $creditcards . '</div>' . $clear_both;
@@ -379,9 +388,8 @@ function init_bambora_payform_gateway()
 						$cinvoices_html = array();
 
 						$cinvoices = array(
-							'euroloan' => array(1000, 10000000),
+							'euroloan' => array(1000, 200000),
 							'joustoraha' => array(2000, 500000),
-							'everyday' => array(500, 200000),
 							'arvato' => array(0, 10000000),
 							'laskuyritykselle' => array(0, 10000000)
 						);
