@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-17 12:50+0000\n"
+"POT-Creation-Date: 2017-12-21 11:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -76,7 +76,6 @@ msgid ""
 msgstr ""
 
 #: bambora-payform-payment-gateway.php:136
-#: bambora-payform-payment-gateway.php:355
 msgid "Choose your payment method and click Pay for Order"
 msgstr ""
 
@@ -85,7 +84,7 @@ msgid "Private key"
 msgstr ""
 
 #: bambora-payform-payment-gateway.php:141
-msgid "Private key of the the sub-merchant"
+msgid "Private key of the sub-merchant"
 msgstr ""
 
 #: bambora-payform-payment-gateway.php:145
@@ -93,7 +92,7 @@ msgid "API key"
 msgstr ""
 
 #: bambora-payform-payment-gateway.php:147
-msgid "API key of the the sub-merchant"
+msgid "API key of the sub-merchant"
 msgstr ""
 
 #: bambora-payform-payment-gateway.php:151
@@ -122,314 +121,316 @@ msgid ""
 "e-mail."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:169
-msgid "Embedded payment options"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:174
-msgid "Enable embedded payment"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:176
-msgid ""
-"Enable this if you want to use embed the payment methods to the checkout-"
-"page."
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:183
-msgid ""
-"Retrieve enabled payment methods automatically for embedded payment "
-"(Recommended)"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:190
-msgid "Manage payment methods"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:192
-msgid ""
-"You can enable all of these if you are using the option to automatically "
-"retrieve your enabled payment methods, and the payment methods will "
-"automatically be visible on the checkout page if they are available."
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:195
-msgid "Banks"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:197
-msgid "Enable bank payments in the Bambora PayForm payment page."
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:201
-msgid "Wallets"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:203
-msgid "Enable wallet services in the Bambora PayForm payment page."
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:207
-msgid "Card payments"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:209
-msgid "Enable credit cards in the Bambora PayForm payment page."
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:213
-msgid "Credit invoices"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:215
-msgid "Enable credit invoices in the Bambora PayForm payment page."
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:219
-msgid "Maksukaista Lasku"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:221
-msgid "Enable Maksukaista Lasku in the Bambora PayForm payment page."
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:225
-msgid "Laskuyritykselle"
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:227
-msgid "Enable Laskuyritykselle in the Bambora PayForm payment page."
-msgstr ""
-
-#: bambora-payform-payment-gateway.php:235
+#: bambora-payform-payment-gateway.php:173
 msgid "Cancel Page"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:238
+#: bambora-payform-payment-gateway.php:176
 msgid ""
 "Choose the page where the customer is redirected after a canceled/failed "
 "payment."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:239
+#: bambora-payform-payment-gateway.php:177
 msgid ""
 "Order Received: Shows the customer information about their order and a "
 "notice that the payment failed. Customer has an opportunity to try payment "
 "again."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:240
+#: bambora-payform-payment-gateway.php:178
 msgid ""
 "Pay for Order: Returns user to a page where they can try to pay their unpaid "
 "order again. "
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:241
+#: bambora-payform-payment-gateway.php:179
 msgid "Cart: Customer is redirected back to the shopping cart."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:242
+#: bambora-payform-payment-gateway.php:180
 msgid "Checkout: Customer is redirected back to the checkout."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:243
+#: bambora-payform-payment-gateway.php:181
 msgid ""
 "(When using Cart or Checkout as the return page for failed orders, the "
 "customer's cart will not be emptied during checkout.)"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:246
+#: bambora-payform-payment-gateway.php:184
 msgid "Order Received"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:247
+#: bambora-payform-payment-gateway.php:185
 msgid "Pay for Order"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:248
+#: bambora-payform-payment-gateway.php:186
 msgid "Cart"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:249
+#: bambora-payform-payment-gateway.php:187
 msgid "Checkout"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:335
-#: bambora-payform-payment-gateway.php:359
+#: bambora-payform-payment-gateway.php:194
+msgid "Only allow payments in EUR"
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:196
+msgid "Enable this option if you want to allow payments only in EUR."
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:200
+msgid "Enable payment method embedding"
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:202
+msgid ""
+"Enable this if you want to embed the payment methods to the checkout-page."
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:208
+msgid "Manage payment methods"
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:213
+msgid "Banks"
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:215
+msgid "Enable bank payments in the Bambora PayForm payment page."
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:219
+msgid "Wallets"
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:221
+msgid "Enable wallet services in the Bambora PayForm payment page."
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:225
+msgid "Card payments"
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:227
+msgid "Enable credit cards in the Bambora PayForm payment page."
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:231
+msgid "Credit invoices"
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:233
+msgid "Enable credit invoices in the Bambora PayForm payment page."
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:237
+msgid "Maksukaista Lasku"
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:239
+msgid "Enable Maksukaista Lasku in the Bambora PayForm payment page."
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:243
+msgid "Lasku Yritykselle"
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:245
+msgid "Enable Lasku Yritykselle in the Bambora PayForm payment page."
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:319
+msgid "No payment methods available for the currency: "
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:342
 msgid "Payment card"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:338
-#: bambora-payform-payment-gateway.php:366
+#: bambora-payform-payment-gateway.php:345
 msgid "Wallet services"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:341
-#: bambora-payform-payment-gateway.php:372
+#: bambora-payform-payment-gateway.php:348
 msgid "Internet banking"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:344
-#: bambora-payform-payment-gateway.php:409
+#: bambora-payform-payment-gateway.php:351
 msgid "Invoice or part payment"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:608
-#: bambora-payform-payment-gateway.php:768
-#: bambora-payform-payment-gateway.php:771
+#: bambora-payform-payment-gateway.php:575
+#: bambora-payform-payment-gateway.php:576
+#: bambora-payform-payment-gateway.php:593
+msgid "Bambora PayForm: No payment methods available for the currency: "
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:590
+msgid ""
+"Bambora PayForm: \"Only allow payments in EUR\" is enabled and currency was "
+"not EUR for order: "
+msgstr ""
+
+#: bambora-payform-payment-gateway.php:616
+#: bambora-payform-payment-gateway.php:776
+#: bambora-payform-payment-gateway.php:779
 msgid "Bambora PayForm order"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:608
+#: bambora-payform-payment-gateway.php:616
 msgid "Payment pending. Waiting for result."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:632
+#: bambora-payform-payment-gateway.php:640
 msgid ""
 "Bambora PayForm system is currently in maintenance. Please try again in a "
 "few minutes."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:640
-#: bambora-payform-payment-gateway.php:655
+#: bambora-payform-payment-gateway.php:648
+#: bambora-payform-payment-gateway.php:663
 msgid "Payment failed due to an error."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:727
+#: bambora-payform-payment-gateway.php:735
 msgid "Payment method: Card payment"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:728
+#: bambora-payform-payment-gateway.php:736
 msgid "Card payment info: "
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:733
+#: bambora-payform-payment-gateway.php:741
 msgid "Verified: "
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:736
+#: bambora-payform-payment-gateway.php:744
 msgid "Card country: "
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:737
+#: bambora-payform-payment-gateway.php:745
 msgid "Client IP country: "
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:742
+#: bambora-payform-payment-gateway.php:750
 msgid "Error: "
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:746
+#: bambora-payform-payment-gateway.php:754
 msgid "Payment method: "
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:768
+#: bambora-payform-payment-gateway.php:776
 msgid "Payment is authorized. Use settle option to capture funds."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:771
+#: bambora-payform-payment-gateway.php:779
 msgid "Payment accepted."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:779
+#: bambora-payform-payment-gateway.php:787
 msgid "Payment was not accepted."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:784
+#: bambora-payform-payment-gateway.php:795
 msgid ""
 "Transaction status could not be updated after customer returned from the web "
 "page of a bank. Please use the merchant UI to resolve the payment status."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:789
+#: bambora-payform-payment-gateway.php:803
 msgid ""
 "Maintenance break. The transaction is not created and the user has been "
 "notified and transferred back to the cancel address."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:815
+#: bambora-payform-payment-gateway.php:832
 msgid "Card payment failed. Your card has not been charged."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:817
+#: bambora-payform-payment-gateway.php:834
 msgid "Payment was canceled or charge was not accepted."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:864
+#: bambora-payform-payment-gateway.php:881
 msgid "Payment settled."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:888
+#: bambora-payform-payment-gateway.php:905
 msgid "Settle payment"
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:912
+#: bambora-payform-payment-gateway.php:929
 msgid "Settlement was successful."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:915
+#: bambora-payform-payment-gateway.php:932
 msgid "Settlement failed. Validation failed."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:918
+#: bambora-payform-payment-gateway.php:935
 msgid ""
 "Settlement failed. Either the payment has already been settled or the "
 "payment gateway refused to settle payment for given transaction."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:921
+#: bambora-payform-payment-gateway.php:938
 msgid "Settlement failed. Unkown error."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:928
+#: bambora-payform-payment-gateway.php:945
 msgid "Exception, error: "
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:966
+#: bambora-payform-payment-gateway.php:983
 msgid "The card is reported lost or stolen."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:968
+#: bambora-payform-payment-gateway.php:985
 msgid ""
 "General decline. The card holder should contact the issuer to find out why "
 "the payment failed."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:970
+#: bambora-payform-payment-gateway.php:987
 msgid ""
 "Insufficient funds. The card holder should verify that there is balance on "
 "the account and the online payments are actived."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:972
+#: bambora-payform-payment-gateway.php:989
 msgid "Expired card."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:974
+#: bambora-payform-payment-gateway.php:991
 msgid "Withdrawal amount limit exceeded."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:976
+#: bambora-payform-payment-gateway.php:993
 msgid ""
 "Restricted card. The card holder should verify that the online payments are "
 "actived."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:978
+#: bambora-payform-payment-gateway.php:995
 msgid ""
 "Timeout communicating with the acquirer. The payment should be tried again "
 "later."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:989
+#: bambora-payform-payment-gateway.php:1006
 msgid "3-D Secure was used."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:991
+#: bambora-payform-payment-gateway.php:1008
 msgid "3-D Secure was not used."
 msgstr ""
 
-#: bambora-payform-payment-gateway.php:993
+#: bambora-payform-payment-gateway.php:1010
 msgid ""
 "3-D Secure was attempted but not supported by the card issuer or the card "
 "holder is not participating."

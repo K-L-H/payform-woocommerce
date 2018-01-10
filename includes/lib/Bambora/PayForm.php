@@ -66,7 +66,7 @@ class PayForm
 		else
 			$payment_data['plugin_info'] .= '0';
 
-		$payment_data['plugin_info'] .= '|2.0.2';
+		$payment_data['plugin_info'] .= '|2.1.0';
 
 		return $this->makeRequest($url, $payment_data);
 	}
@@ -154,11 +154,12 @@ class PayForm
 		));
 	}
 
-	public function getMerchantPaymentMethods()
+	public function getMerchantPaymentMethods($currency = '')
 	{
 		return $this->makeRequest('merchant_payment_methods', array(
 			'authcode' => $this->calcAuthcode($this->api_key),
-			'version' => '1'
+			'version' => '2',
+			'currency' => $currency
 		));
 	}
 

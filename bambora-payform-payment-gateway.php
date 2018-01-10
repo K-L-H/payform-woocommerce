@@ -3,7 +3,7 @@
  * Plugin Name: Bambora PayForm Payment Gateway
  * Plugin URI: https://payform.bambora.com/docs
  * Description: Bambora PayForm Payment Gateway Integration for Woocommerce
- * Version: 2.0.2
+ * Version: 2.1.0
  * Author: Bambora
  * Author URI: https://www.bambora.com/fi/fi/Verkkokauppa/Payform/
  * Text Domain: bambora-payform-payment-gateway
@@ -62,9 +62,9 @@ function init_bambora_payform_gateway()
 			$this->send_items = $this->get_option('send_items');
 			$this->send_receipt = $this->get_option('send_receipt');
 			$this->embed = $this->get_option('embed');
-			$this->dynamic = $this->get_option('dynamic');
 
 			$this->cancel_url = $this->get_option('cancel_url');
+			$this->limit_currencies = $this->get_option('limit_currencies');
 
 			add_action('wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
 			add_action('admin_notices', array($this, 'payform_admin_notices'));
@@ -72,7 +72,7 @@ function init_bambora_payform_gateway()
 			add_action('woocommerce_api_wc_gateway_bambora_payform', array($this, 'check_bambora_payform_response' ) );
 			add_action('woocommerce_admin_order_data_after_billing_address', array($this, 'bambora_payform_settle_payment'), 1, 1);
 
-			if(!$this->is_valid_currency())
+			if(!$this->is_valid_currency() && $this->limit_currencies == 'yes')
 				$this->enabled = false;
 
 			if (!function_exists('curl_init'))
@@ -89,8 +89,8 @@ function init_bambora_payform_gateway()
 		}
 
 		function is_valid_currency()
-		{
-			return in_array(get_option('woocommerce_currency'), array('EUR'));
+		{	
+			return in_array(get_woocommerce_currency(), array('EUR'));
 		}
 
 		function payment_scripts() {
@@ -138,13 +138,13 @@ function init_bambora_payform_gateway()
 				'private_key' => array(
 					'title' => __( 'Private key', 'bambora-payform-payment-gateway' ),
 					'type' => 'text',
-					'description' => __( 'Private key of the the sub-merchant', 'bambora-payform-payment-gateway' ),
+					'description' => __( 'Private key of the sub-merchant', 'bambora-payform-payment-gateway' ),
 					'default' => ''
 				),
 				'api_key' => array(
 					'title' => __( 'API key', 'bambora-payform-payment-gateway' ),
 					'type' => 'text',
-					'description' => __( 'API key of the the sub-merchant', 'bambora-payform-payment-gateway' ),
+					'description' => __( 'API key of the sub-merchant', 'bambora-payform-payment-gateway' ),
 					'default' => ''
 				),
 				'ordernumber_prefix' => array(
@@ -164,32 +164,50 @@ function init_bambora_payform_gateway()
 					'type' => 'checkbox',
 					'label' => __( "Send Bambora PayForm's payment confirmation email to the customer's billing e-mail.", 'bambora-payform-payment-gateway' ),
 					'default' => 'yes',
-				),
-				'embed_options' => array(
-					'title' => __( 'Embedded payment options', 'bambora-payform-payment-gateway' ),
-					'type' => 'title',
-					'description' => ''
+				)
+			);
+
+			if (version_compare(WOOCOMMERCE_VERSION, '2.1.0', '>='))
+			{
+				$this->form_fields['cancel_url'] = array(
+					'title' => __( 'Cancel Page', 'bambora-payform-payment-gateway' ),
+					'type' => 'select',
+					'description' => 
+						__( 'Choose the page where the customer is redirected after a canceled/failed payment.', 'bambora-payform-payment-gateway' ) . '<br>'.
+						' - ' . __( 'Order Received: Shows the customer information about their order and a notice that the payment failed. Customer has an opportunity to try payment again.', 'bambora-payform-payment-gateway' ) . '<br>'.
+						' - ' .__( 'Pay for Order: Returns user to a page where they can try to pay their unpaid order again. ', 'bambora-payform-payment-gateway' ) . '<br>'.
+						' - ' .__( 'Cart: Customer is redirected back to the shopping cart.' , 'bambora-payform-payment-gateway' ) . '<br>'.
+						' - ' .__( 'Checkout: Customer is redirected back to the checkout.', 'bambora-payform-payment-gateway' ) . '<br>'.
+						'<br>' .__( '(When using Cart or Checkout as the return page for failed orders, the customer\'s cart will not be emptied during checkout.)', 'bambora-payform-payment-gateway' ),
+					'default' => 'order_received',
+					'options' => array(
+						'order_received' => __('Order Received', 'bambora-payform-payment-gateway'),
+						'order_pay' => __('Pay for Order', 'bambora-payform-payment-gateway'),
+						'order_new_cart' => __('Cart', 'bambora-payform-payment-gateway'),
+						'order_new_checkout' => __('Checkout', 'bambora-payform-payment-gateway')
+					)
+				);
+			}
+
+			$this->form_fields = array_merge($this->form_fields, array(
+				'limit_currencies' => array(
+					'title' => __( 'Only allow payments in EUR', 'bambora-payform-payment-gateway' ),
+					'type' => 'checkbox',
+					'label' => __( "Enable this option if you want to allow payments only in EUR.", 'bambora-payform-payment-gateway' ),
+					'default' => 'yes',
 				),
 				'embed' => array(
-					'title' => __( 'Enable embedded payment', 'bambora-payform-payment-gateway' ),
+					'title' => __( 'Enable payment method embedding', 'bambora-payform-payment-gateway' ),
 					'type' => 'checkbox',
-					'label' => __( "Enable this if you want to use embed the payment methods to the checkout-page.", 'bambora-payform-payment-gateway' ),
+					'label' => __( "Enable this if you want to embed the payment methods to the checkout-page.", 'bambora-payform-payment-gateway' ),
 					'default' => 'yes',
 					'checkboxgroup'	=> 'start',
 					'show_if_checked' => 'option'
 				),
-				'dynamic' => array(
-					'type' => 'checkbox',
-					'label' => __( "Retrieve enabled payment methods automatically for embedded payment (Recommended)", 'bambora-payform-payment-gateway' ),
-					'default' => 'yes',
-					'show_if_checked' => 'yes',
-					'hide_if_checked' => 'no',
-					'checkboxgroup'	=> 'end'
-				),
 				'limit_options' => array(
 					'title' => __( 'Manage payment methods', 'bambora-payform-payment-gateway' ),
 					'type' => 'title',
-					'description' => __('You can enable all of these if you are using the option to automatically retrieve your enabled payment methods, and the payment methods will automatically be visible on the checkout page if they are available.', 'bambora-payform-payment-gateway' ),
+					'description' => '',
 				),
 				'banks' => array(
 					'title' => __( 'Banks', 'bambora-payform-payment-gateway' ),
@@ -222,34 +240,13 @@ function init_bambora_payform_gateway()
 					'default' => 'no'
 				),
 				'laskuyritykselle' => array(
-					'title' => __( 'Laskuyritykselle', 'bambora-payform-payment-gateway' ),
+					'title' => __( 'Lasku Yritykselle', 'bambora-payform-payment-gateway' ),
 					'type' => 'checkbox',
-					'label' => __( 'Enable Laskuyritykselle in the Bambora PayForm payment page.', 'bambora-payform-payment-gateway' ),
+					'label' => __( 'Enable Lasku Yritykselle in the Bambora PayForm payment page.', 'bambora-payform-payment-gateway' ),
 					'default' => 'no'
 				)
-			);
+			));
 
-			if (version_compare(WOOCOMMERCE_VERSION, '2.1.0', '>='))
-			{
-				$this->form_fields['cancel_url'] = array(
-					'title' => __( 'Cancel Page', 'bambora-payform-payment-gateway' ),
-					'type' => 'select',
-					'description' => 
-						__( 'Choose the page where the customer is redirected after a canceled/failed payment.', 'bambora-payform-payment-gateway' ) . '<br>'.
-						' - ' . __( 'Order Received: Shows the customer information about their order and a notice that the payment failed. Customer has an opportunity to try payment again.', 'bambora-payform-payment-gateway' ) . '<br>'.
-						' - ' .__( 'Pay for Order: Returns user to a page where they can try to pay their unpaid order again. ', 'bambora-payform-payment-gateway' ) . '<br>'.
-						' - ' .__( 'Cart: Customer is redirected back to the shopping cart.' , 'bambora-payform-payment-gateway' ) . '<br>'.
-						' - ' .__( 'Checkout: Customer is redirected back to the checkout.', 'bambora-payform-payment-gateway' ) . '<br>'.
-						'<br>' .__( '(When using Cart or Checkout as the return page for failed orders, the customer\'s cart will not be emptied during checkout.)', 'bambora-payform-payment-gateway' ),
-					'default' => 'order_received',
-					'options' => array(
-						'order_received' => __('Order Received', 'bambora-payform-payment-gateway'),
-						'order_pay' => __('Pay for Order', 'bambora-payform-payment-gateway'),
-						'order_new_cart' => __('Cart', 'bambora-payform-payment-gateway'),
-						'order_new_checkout' => __('Checkout', 'bambora-payform-payment-gateway')
-					)
-				);
-			}
 		}
 
 		function payment_fields()
@@ -268,23 +265,20 @@ function init_bambora_payform_gateway()
 				$total = (int)(round($wc_order_total*100, 0));
 			}
 
-			if (!empty($this->description))
-				echo wpautop(wptexturize($this->description));
-
 			$plugin_url = untrailingslashit(plugins_url(basename(plugin_dir_path(__FILE__)), basename(__FILE__))) . '/';
 
 			if($this->embed == 'yes')
 			{
-				if($this->dynamic == 'yes')
+				$creditcards = $banks = $creditinvoices = $wallets = '';
+				include(plugin_dir_path( __FILE__ ).'includes/lib/bambora_payform_loader.php');
+				$payment_methods = new Bambora\PayForm($this->api_key, $this->private_key);
+				try
 				{
-					$creditcards = $banks = $creditinvoices = $wallets = '';
-					include(plugin_dir_path( __FILE__ ).'includes/lib/bambora_payform_loader.php');
-					$payment_methods = new Bambora\PayForm($this->api_key, $this->private_key);
-					try
-					{
-						$response = $payment_methods->getMerchantPaymentMethods();
+					$response = $payment_methods->getMerchantPaymentMethods(get_woocommerce_currency());
 
-						if($response->result == 0 && count($response->payment_methods) > 0)
+					if($response->result == 0)
+					{
+						if(count($response->payment_methods) > 0)
 						{
 							foreach ($response->payment_methods as $method)
 							{
@@ -317,111 +311,53 @@ function init_bambora_payform_gateway()
 										$creditinvoices .= '<div id="bambora-payform-button-' . $method->selected_value . '" class="bank-button"><img alt="' . $method->name . '" src="' . $plugin_url.$img . '"/></div>';
 								}
 							}
-						}					
+
+						}
+
+						if(empty($creditcards) && empty($banks) && empty($creditinvoices) && empty($wallets))
+						{
+							echo '<div class="woocommerce-error"><strong>' . __('No payment methods available for the currency: ', 'bambora-payform-payment-gateway') . get_woocommerce_currency() . '</strong></div>';
+						}
+						else
+						{
+							if (!empty($this->description))
+								echo wpautop(wptexturize($this->description));
+							if (!empty($this->payment_description))
+								echo wpautop(wptexturize($this->payment_description));
+						}
 					}
-					catch (Bambora\PayFormException $e) 
-					{
-						$logger = new WC_Logger();
-						$logger->add( 'bambora-payform-payment-gateway', 'Bambora PayForm REST::getMerchantPaymentMethods failed, exception: ' . $e->getCode().' '.$e->getMessage());
-					}
-
-					$clear_both = '<div style="display: block; clear: both;"></div>';
-					
-					if (!empty($this->payment_description))
-						echo wpautop(wptexturize($this->payment_description));
-
-					echo '<br/><div id="bambora-payform-bank-payments">';
-					if($creditcards != '')
-						echo '<div>'.wpautop(wptexturize(__( 'Payment card', 'bambora-payform-payment-gateway' ))) . $creditcards . '</div>' . $clear_both;
-
-					if($wallets != '')
-						echo '<div>'.wpautop(wptexturize(__( 'Wallet services', 'bambora-payform-payment-gateway' ))) . $wallets . '</div>' . $clear_both;
-
-					if($banks != '')
-						echo '<div>'.wpautop(wptexturize(__( 'Internet banking', 'bambora-payform-payment-gateway' ))) . $banks . '</div>' . $clear_both;
-
-					if($creditinvoices != '')
-						echo '<div>'.wpautop(wptexturize(__( 'Invoice or part payment', 'bambora-payform-payment-gateway' ))) . $creditinvoices . '</div>' . $clear_both;
-
-					echo '</div>';
-
-					echo '<div id="bambora_payform_bank_checkout_fields" style="display: none;">';
-					echo '<input id="bambora_payform_selected_bank" class="input-hidden" type="hidden" name="bambora_payform_selected_bank" />';
-					echo '</div>';
 				}
-				else
+				catch (Bambora\PayFormException $e) 
 				{
-					
-					echo wpautop(wptexturize(__( 'Choose your payment method and click Pay for Order', 'bambora-payform-payment-gateway' )));
-					echo '<br/><div id="bambora-payform-bank-payments">';
-					if($this->ccards == 'yes')
-					{
-						echo '<div>'.wpautop(wptexturize(__( 'Payment card', 'bambora-payform-payment-gateway' )));
-						echo '<div id="bambora-payform-button-creditcards" class="bank-button"><img alt="Visa" src="'. $plugin_url .'assets/images/visa.png"/></div>'; //visa
-						echo '<div id="bambora-payform-button-creditcards" class="bank-button"><img alt="MasterCard" src="'. $plugin_url .'assets/images/mastercard.png"/></div>'; //master
-						echo $clear_both . '</div>';
-					}
-					if($this->wallets == 'yes')
-					{
-						echo '<div>'.wpautop(wptexturize(__( 'Wallet services', 'bambora-payform-payment-gateway' )));
-						echo '<div id="bambora-payform-button-mobilepay" class="bank-button"><img alt="MobilePay" src="'. $plugin_url .'assets/images/mobilepay.png"/></div>';
-						echo $clear_both . '</div>';
-					}
-					if($this->banks == 'yes')
-					{
-						echo '<div>'.wpautop(wptexturize(__( 'Internet banking', 'bambora-payform-payment-gateway' )));
-						echo '<div id="bambora-payform-button-nordea" class="bank-button"><img alt="Nordea" src="'. $plugin_url .'assets/images/nordea.png"/></div>';
-						echo '<div id="bambora-payform-button-op" class="bank-button"><img alt="Osuuspankki" src="'. $plugin_url .'assets/images/osuuspankki.png"/></div>';
-						echo '<div id="bambora-payform-button-danske" class="bank-button"><img alt="Danskebank" src="'. $plugin_url .'assets/images/danskebank.png"/></div>';
-						echo '<div id="bambora-payform-button-saastopankki" class="bank-button"><img alt="Säästöpankki" src="'. $plugin_url .'assets/images/saastopankki.png"/></div>';
-						echo '<div id="bambora-payform-button-paikallisosuuspankki" class="bank-button"><img alt="POP-Pankki" src="'. $plugin_url .'assets/images/paikallisosuuspankki.png"/></div>';
-						echo '<div id="bambora-payform-button-aktia" class="bank-button"><img alt="Aktia" src="'. $plugin_url .'assets/images/aktia.png"/></div>';
-						echo '<div id="bambora-payform-button-handelsbanken" class="bank-button"><img alt="Handelsbanken" src="'. $plugin_url .'assets/images/handelsbanken.png"/></div>';
-						echo '<div id="bambora-payform-button-spankki" class="bank-button"><img alt="S-Pankki" src="'. $plugin_url .'assets/images/spankki.png"/></div>';
-						echo '<div id="bambora-payform-button-alandsbanken" class="bank-button"><img alt="Ålandsbanken" src="'. $plugin_url .'assets/images/alandsbanken.png"/></div>';
-						echo '<div id="bambora-payform-button-omasaastopankki" class="bank-button"><img alt="Oma Säästöpankki" src="'. $plugin_url .'assets/images/omasaastopankki.png"/></div>';
-						echo $clear_both . '</div>';
-					}
-
-					if($this->arvato == 'yes' || $this->cinvoices == 'yes' || $this->laskuyritykselle == 'yes')
-					{
-						$cinvoices_html = array();
-
-						$cinvoices = array(
-							'euroloan' => array(1000, 200000),
-							'joustoraha' => array(2000, 500000),
-							'arvato' => array(0, 10000000),
-							'laskuyritykselle' => array(0, 10000000)
-						);
-
-						foreach ($cinvoices as $key => $value)
-						{
-							if($key == 'arvato' || $key == 'laskuyritykselle')
-							{
-								if(($key == 'arvato' && $this->arvato == 'yes') || ($key == 'laskuyritykselle' && $this->laskuyritykselle == 'yes'))
-									$cinvoices_html[] = '<div id="bambora-payform-button-' . strtolower($key) . '" class="bank-button"><img alt="' . $key . '" src="' . $plugin_url . 'assets/images/' . $key . '.png"/></div>';
-							}
-							else if($this->cinvoices == 'yes' && ((!isset($order) && $cart_total >= $value[0] && $cart_total <= $value[1]) || ($total >= $value[0] && $total <= $value[1])))
-								$cinvoices_html[] = '<div id="bambora-payform-button-' . strtolower($key) . '" class="bank-button"><img alt="' . $key . '" src="' . $plugin_url . 'assets/images/' . $key . '.png"/></div>';
-						}
-						if(count($cinvoices_html) > 0)
-						{
-							echo '<div>'.wpautop(wptexturize(__( 'Invoice or part payment', 'bambora-payform-payment-gateway' )));
-							foreach ($cinvoices_html as $cinvoice)
-							{
-								echo $cinvoice;
-							}
-							echo $clear_both . '</div>';
-						}
-					}
-
-					echo '</div>';
-
-					echo '<div id="bambora_payform_bank_checkout_fields" style="display: none;">';
-					echo '<input id="bambora_payform_selected_bank" class="input-hidden" type="hidden" name="bambora_payform_selected_bank" />';
-					echo '</div>';
+					$logger = new WC_Logger();
+					$logger->add( 'bambora-payform-payment-gateway', 'Bambora PayForm REST::getMerchantPaymentMethods failed, exception: ' . $e->getCode().' '.$e->getMessage());
 				}
+
+				$clear_both = '<div style="display: block; clear: both;"></div>';
+				
+				
+
+				echo '<br/><div id="bambora-payform-bank-payments">';
+				if($creditcards != '')
+					echo '<div>'.wpautop(wptexturize(__( 'Payment card', 'bambora-payform-payment-gateway' ))) . $creditcards . '</div>' . $clear_both;
+
+				if($wallets != '')
+					echo '<div>'.wpautop(wptexturize(__( 'Wallet services', 'bambora-payform-payment-gateway' ))) . $wallets . '</div>' . $clear_both;
+
+				if($banks != '')
+					echo '<div>'.wpautop(wptexturize(__( 'Internet banking', 'bambora-payform-payment-gateway' ))) . $banks . '</div>' . $clear_both;
+
+				if($creditinvoices != '')
+					echo '<div>'.wpautop(wptexturize(__( 'Invoice or part payment', 'bambora-payform-payment-gateway' ))) . $creditinvoices . '</div>' . $clear_both;
+
+				echo '</div>';
+
+				echo '<div id="bambora_payform_bank_checkout_fields" style="display: none;">';
+				echo '<input id="bambora_payform_selected_bank" class="input-hidden" type="hidden" name="bambora_payform_selected_bank" />';
+				echo '</div>';
 			}
+			else if(!empty($this->description)) //Non embed
+				echo wpautop(wptexturize($this->description));
 		}
 
 		function process_payment($order_id)
@@ -574,18 +510,90 @@ function init_bambora_payform_gateway()
 			else
 			{
 				$mk_selected = array();
-				if($this->banks == 'yes')
-					$mk_selected[] = 'banks';
-				if($this->wallets == 'yes')
-					$mk_selected[] = 'wallets';
-				if($this->ccards == 'yes')
-					$mk_selected[] = 'creditcards';
-				if($this->cinvoices == 'yes')
-					$mk_selected[] = 'creditinvoices';
-				if($this->arvato == 'yes')
-					$mk_selected[] = 'arvato';
-				if($this->laskuyritykselle == 'yes')
-					$mk_selected[] = 'laskuyritykselle';
+				if($this->is_valid_currency())
+				{
+					if($this->banks == 'yes')
+						$mk_selected[] = 'banks';
+					if($this->wallets == 'yes')
+						$mk_selected[] = 'wallets';
+					if($this->ccards == 'yes')
+						$mk_selected[] = 'creditcards';
+					if($this->cinvoices == 'yes')
+						$mk_selected[] = 'creditinvoices';
+					if($this->arvato == 'yes')
+						$mk_selected[] = 'arvato';
+					if($this->laskuyritykselle == 'yes')
+						$mk_selected[] = 'laskuyritykselle';
+				}
+				else if($this->limit_currencies == 'no')
+				{
+					include(plugin_dir_path( __FILE__ ).'includes/lib/bambora_payform_loader.php');
+					$payment_methods = new Bambora\PayForm($this->api_key, $this->private_key);
+					try
+					{
+						$response = $payment_methods->getMerchantPaymentMethods(get_woocommerce_currency());
+
+						if($response->result == 0)
+						{
+							if(count($response->payment_methods) > 0)
+							{
+								foreach ($response->payment_methods as $method)
+								{
+									$key = $method->selected_value;
+									if($method->group == 'creditcards')
+										$key = strtolower($method->name);
+
+									if($method->group == 'creditcards'  && $this->ccards == 'yes')
+									{
+										$mk_selected[] = $method->group; //creditcards
+									}
+									else if($method->group == 'wallets' && $this->wallets == 'yes')
+									{
+										$mk_selected[] = $method->selected_value;
+									}
+									else if($method->group == 'banks' && $this->banks == 'yes')
+									{
+										$mk_selected[] = $method->selected_value;
+									}
+									else if($method->group == 'creditinvoices')
+									{
+										if($method->selected_value == 'arvato' || $method->selected_value == 'laskuyritykselle')
+										{
+											if(($method->selected_value == 'arvato' && $this->arvato == 'yes') || ($method->selected_value == 'laskuyritykselle' && $this->laskuyritykselle == 'yes'))
+												$mk_selected[] = $method->selected_value;
+										}
+										else if($this->cinvoices == 'yes' && ((!isset($order) && $cart_total >= $method->min_amount && $cart_total <= $method->max_amount) || ($total >= $method->min_amount && $total <= $method->max_amount)))
+											$mk_selected[] = $method->selected_value;
+									}
+								}
+							}
+
+							if(empty($mk_selected))
+							{
+								$logger = new WC_Logger();
+								$logger->add( 'bambora-payform-payment-gateway', 'Bambora PayForm no payment methods available for order: ' . $order_number . ', currency: ' . get_woocommerce_currency());
+								wc_add_notice(__('Bambora PayForm: No payment methods available for the currency: ', 'bambora-payform-payment-gateway') . get_woocommerce_currency(), 'error');
+								$order_number_text = __('Bambora PayForm: No payment methods available for the currency: ', 'bambora-payform-payment-gateway') .  get_woocommerce_currency();
+								$order->add_order_note($order_number_text);
+								return;
+							}
+						}
+					}
+					catch (Bambora\PayFormException $e) 
+					{
+						$logger = new WC_Logger();
+						$logger->add( 'bambora-payform-payment-gateway', 'Bambora PayForm getMerchantPaymentMethods failed for order: ' . $order_number . ', exception: ' . $e->getCode().' '.$e->getMessage());
+					}
+				}
+				else
+				{
+					$error_text = __('Bambora PayForm: "Only allow payments in EUR" is enabled and currency was not EUR for order: ', 'bambora-payform-payment-gateway');
+					$logger = new WC_Logger();
+					$logger->add( $error_text . $order_number);
+					wc_add_notice(__('Bambora PayForm: No payment methods available for the currency: ', 'bambora-payform-payment-gateway') . get_woocommerce_currency(), 'notice');
+					$order->add_order_note($error_text . $order_number);
+					return;
+				}
 			}
 
 			$payment->addPaymentMethod(
@@ -777,17 +785,26 @@ function init_bambora_payform_gateway()
 
 							case 1:
 								$pbw_note = __('Payment was not accepted.', 'bambora-payform-payment-gateway') . $pbw_extra_info;
-								$order->update_status('failed', $pbw_note);
+								if($wc_order_status == 'failed')
+									$order->add_order_note($pbw_note);
+								else
+									$order->update_status('failed', $pbw_note);
 								break;
 
 							case 4:
 								$note = __('Transaction status could not be updated after customer returned from the web page of a bank. Please use the merchant UI to resolve the payment status.', 'bambora-payform-payment-gateway');
-								$order->update_status('failed', $note);
+								if($wc_order_status == 'failed')
+									$order->add_order_note($note);
+								else
+									$order->update_status('failed', $note);
 								break;
 
 							case 10:
 								$note = __('Maintenance break. The transaction is not created and the user has been notified and transferred back to the cancel address.', 'bambora-payform-payment-gateway');
-								$order->update_status('failed', $note);
+								if($wc_order_status == 'failed')
+									$order->add_order_note($note);
+								else
+									$order->update_status('failed', $note);
 								break;
 						}
 					}
