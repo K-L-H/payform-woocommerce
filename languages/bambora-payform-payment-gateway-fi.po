@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Bambora PayForm Payment Gateway\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-21 11:52+0000\n"
-"PO-Revision-Date: 2017-12-21 11:52+0000\n"
+"PO-Revision-Date: 2018-02-14 11:52+0000\n"
 "Last-Translator: Bambora Payform <payform@bambora.com>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -228,7 +228,7 @@ msgstr "Lompakot"
 
 #: bambora-payform-payment-gateway.php:221
 msgid "Enable wallet services in the Bambora PayForm payment page."
-msgstr "Ota lompakkopalvelut käyttöön maksusivulla. (MobilePay)"
+msgstr "Ota lompakkopalvelut käyttöön maksusivulla. (MobilePay ja Masterpass)"
 
 #: bambora-payform-payment-gateway.php:225
 msgid "Card payments"
