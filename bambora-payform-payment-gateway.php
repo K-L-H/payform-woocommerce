@@ -3,7 +3,7 @@
  * Plugin Name: Bambora PayForm Payment Gateway
  * Plugin URI: https://payform.bambora.com/docs
  * Description: Bambora PayForm Payment Gateway Integration for Woocommerce
- * Version: 2.1.1
+ * Version: 2.1.3
  * Author: Bambora
  * Author URI: https://www.bambora.com/fi/fi/Verkkokauppa/Payform/
  * Text Domain: bambora-payform-payment-gateway
@@ -703,7 +703,15 @@ function init_bambora_payform_gateway()
 				$authcode_confirm = strtoupper(hash_hmac('sha256', $authcode_confirm, $this->private_key));
 
 				$order_id = isset($_GET['order_id']) ? $_GET['order_id'] : null;
+
+				if($order_id === null || $order_number === null)
+					die ("No order_id nor order_number given.");
+
 				$order = $this->get_order_by_id_and_order_number($order_id, $order_number);
+				
+				if($order === null)
+					die ("Order not found.");
+
 				$mk_on = get_post_meta($order_id, 'bambora_payform_order_number', true );
 
 				$wc_order_id = $old_wc ? $order->id : $order->get_id();

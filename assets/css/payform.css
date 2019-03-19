@@ -43,6 +43,7 @@ ul.payment_methods li.payment_method_bambora_payform p {
 	float: none !important;
 	vertical-align: middle !important;
 	display: inline;
+	position: static;
 }
 
 #payment #bambora-payform-bank-payments .bank-button:hover {
