@@ -3,7 +3,7 @@
  * Plugin Name: Bambora PayForm Payment Gateway
  * Plugin URI: https://payform.bambora.com/docs
  * Description: Bambora PayForm Payment Gateway Integration for Woocommerce
- * Version: 2.1.4
+ * Version: 2.1.5
  * Author: Bambora
  * Author URI: https://www.bambora.com/fi/fi/Verkkokauppa/Payform/
  * Text Domain: bambora-payform-payment-gateway
@@ -462,7 +462,7 @@ function init_bambora_payform_gateway()
 					'tax' => $line_tax,
 					'type' => 1
 				);
-				$total_amount += ($item['line_total'] + $item['line_tax']);
+				$total_amount += $product['price'] * $product['count'];
 				array_push($products, $product);
 		 	}
 
@@ -480,11 +480,10 @@ function init_bambora_payform_gateway()
 					'tax' => round(($wc_order_shipping_tax/$wc_order_shipping)*100,0),
 					'type' => 2
 				);
-				$total_amount += ($wc_order_shipping_tax+$wc_order_shipping);
+				$total_amount += $product['price'] * $product['count'];
 				array_push($products, $product);				
 			}
-			
-			$total_amount = (int)(round($total_amount*100, 0));
+
 			if($this->send_items == 'yes' && $total_amount == $amount)
 			{
 				foreach($products as $product)
