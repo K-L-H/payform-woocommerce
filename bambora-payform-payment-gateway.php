@@ -3,7 +3,7 @@
  * Plugin Name: Bambora PayForm Payment Gateway
  * Plugin URI: https://payform.bambora.com/docs
  * Description: Bambora PayForm Payment Gateway Integration for Woocommerce
- * Version: 2.1.5
+ * Version: 2.1.6
  * Author: Bambora
  * Author URI: https://www.bambora.com/fi/fi/Verkkokauppa/Payform/
  * Text Domain: bambora-payform-payment-gateway
@@ -371,6 +371,7 @@ function init_bambora_payform_gateway()
 
 			$wc_order_id = $old_wc ? $order->id : $order->get_id();
 			$wc_order_total = $old_wc ? $order->order_total : $order->get_total();
+
 			$wc_b_first_name = $old_wc ? $order->billing_first_name : $order->get_billing_first_name();
 			$wc_b_last_name = $old_wc ? $order->billing_last_name : $order->get_billing_last_name();
 			$wc_b_email = $old_wc ? $order->billing_email : $order->get_billing_email();
@@ -378,6 +379,15 @@ function init_bambora_payform_gateway()
 			$wc_b_address_2 = $old_wc ? $order->billing_address_2 : $order->get_billing_address_2();
 			$wc_b_city = $old_wc ? $order->billing_city : $order->get_billing_city();
 			$wc_b_postcode = $old_wc ? $order->billing_postcode : $order->get_billing_postcode();
+			$wc_b_country = $old_wc ? $order->billing_country : $order->get_billing_country();
+			$wc_s_first_name = $old_wc ? $order->shipping_first_name : $order->get_shipping_first_name();
+			$wc_s_last_name = $old_wc ? $order->shipping_last_name : $order->get_shipping_last_name();
+			$wc_s_address_1 = $old_wc ? $order->shipping_address_1 : $order->get_shipping_address_1();
+			$wc_s_address_2 = $old_wc ? $order->shipping_address_2 : $order->get_shipping_address_2();
+			$wc_s_city = $old_wc ? $order->shipping_city : $order->get_shipping_city();
+			$wc_s_postcode = $old_wc ? $order->shipping_postcode : $order->get_shipping_postcode();
+			$wc_s_country = $old_wc ? $order->shipping_country : $order->get_shipping_country();
+
 			$wc_order_shipping = $old_wc ? $order->order_shipping : $order->get_shipping_total();
 			$wc_order_shipping_tax = $old_wc ? $order->order_shipping_tax : $order->get_shipping_tax();
 			$bambora_payform_selected_bank = isset( $_POST['bambora_payform_selected_bank'] ) ? wc_clean( $_POST['bambora_payform_selected_bank'] ) : '';
@@ -439,12 +449,19 @@ function init_bambora_payform_gateway()
 
 			$payment->addCustomer(
 				array(
-					'firstname' => htmlspecialchars($wc_b_first_name), 
-					'lastname' => htmlspecialchars($wc_b_last_name), 
-					'email' => htmlspecialchars($wc_b_email), 
-					'address_street' => htmlspecialchars($wc_b_address_1.' '.$wc_b_address_2),
+					'firstname' => htmlspecialchars($wc_b_first_name),
+					'lastname' => htmlspecialchars($wc_b_last_name),
+					'email' => htmlspecialchars($wc_b_email),
+					'address_street' => trim(htmlspecialchars($wc_b_address_1.' '.$wc_b_address_2)),
 					'address_city' => htmlspecialchars($wc_b_city),
-					'address_zip' => htmlspecialchars($wc_b_postcode)
+					'address_zip' => htmlspecialchars($wc_b_postcode),
+					'address_country' => htmlspecialchars($wc_b_country),
+					'shipping_firstname' => htmlspecialchars($wc_s_first_name),
+					'shipping_lastname' => htmlspecialchars($wc_s_last_name),
+					'shipping_address_street' => trim(htmlspecialchars($wc_s_address_1.' '.$wc_s_address_2)),
+					'shipping_address_city' => htmlspecialchars($wc_s_city),
+					'shipping_address_zip' => htmlspecialchars($wc_s_postcode),
+					'shipping_address_country' => htmlspecialchars($wc_s_country)
 				)
 			);
 

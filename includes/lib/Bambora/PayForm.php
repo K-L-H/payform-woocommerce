@@ -66,7 +66,7 @@ class PayForm
 		else
 			$payment_data['plugin_info'] .= '0';
 
-		$payment_data['plugin_info'] .= '|2.1.5';
+		$payment_data['plugin_info'] .= '|2.1.6';
 
 		return $this->makeRequest($url, $payment_data);
 	}
