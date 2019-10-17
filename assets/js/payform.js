@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-	if (jQuery('form#order_review').size()>0) {
+	if (jQuery('form#order_review').length>0) {
 
 		jQuery('#bambora-payform-bank-payments .bank-button').on('click',function() {
 			jQuery('#bambora-payform-bank-payments .bank-button').removeClass('selected');
