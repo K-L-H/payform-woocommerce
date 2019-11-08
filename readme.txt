@@ -3,10 +3,12 @@ Contributors: hsuvant
 Donate link: 
 Tags: payment gateway, bambora, payform, verkkomaksut, pankit
 Requires at least: 3.3
-Tested up to: 5.2.3
+Tested up to: 5.2.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+WC requires at least: 2.5.0
+WC tested up to: 3.8.0
 
 Bambora PayForm plugin for Woocommerce.
 
@@ -21,7 +23,7 @@ This is a plugin for integrating Bambora PayForm (EU) payment gateway with your 
 * Optional separate authorize and capture(settle) for credit card payments 
 
 = Supported payment methods =
-Nordea, Osuuspankki, Danskebank, Aktia, Säästöpankki, Paikallisosuuspankki, Handelsbanken, S-Pankki, Ålandsbanken, Oma Säästöpankki, Visa, Visa Electron, Mastercard, Jousto, Mash, MobilePay, Masterpass and Pivo.
+Nordea, Osuuspankki, Danskebank, Aktia, Säästöpankki, Paikallisosuuspankki, Handelsbanken, S-Pankki, Ålandsbanken, Oma Säästöpankki, Visa, Visa Electron, Mastercard, Jousto, Mash, MobilePay, Masterpass, Pivo and Siirto.
 
 Notice: Plugin uses libcurl.
 

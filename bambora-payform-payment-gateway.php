@@ -3,11 +3,13 @@
  * Plugin Name: Bambora PayForm Payment Gateway
  * Plugin URI: https://payform.bambora.com/docs
  * Description: Bambora PayForm Payment Gateway Integration for Woocommerce
- * Version: 2.1.7
+ * Version: 2.1.8
  * Author: Bambora
  * Author URI: https://www.bambora.com/fi/fi/Verkkokauppa/Payform/
  * Text Domain: bambora-payform-payment-gateway
  * Domain Path: /languages
+ * WC requires at least: 2.5.0
+ * WC tested up to: 3.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -469,7 +471,24 @@ function init_bambora_payform_gateway()
 			$total_amount = 0;
 			$order_items = $order->get_items();
 			foreach($order_items as $item) {
-				$line_tax = ($item['line_total'] > 0) ? round($item['line_tax']/$item['line_total']*100,0) : 0;
+				if($old_wc)
+				{
+					$line_tax = ($item['line_total'] > 0) ? round($item['line_tax']/$item['line_total']*100,0) : 0;
+				}
+				else
+				{
+					$tax_rates = WC_Tax::get_rates($item->get_tax_class());
+					if(!empty($tax_rates))
+					{
+						$tax_rate = reset($tax_rates);
+						$line_tax = (int)round($tax_rate['rate']);
+					}
+					else
+					{
+						$line_tax = ($order->get_item_total($item, false, false) > 0) ? round($order->get_item_tax($item, false)/$order->get_item_total($item, false, false)*100,0) : 0;
+					}
+				}
+
 				$product = array(
 					'title' => $item['name'],
 					'id' => $item['product_id'],
