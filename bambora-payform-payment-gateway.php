@@ -3,13 +3,13 @@
  * Plugin Name: Bambora PayForm Payment Gateway
  * Plugin URI: https://payform.bambora.com/docs
  * Description: Bambora PayForm Payment Gateway Integration for Woocommerce
- * Version: 2.1.8
+ * Version: 2.1.9
  * Author: Bambora
  * Author URI: https://www.bambora.com/fi/fi/Verkkokauppa/Payform/
  * Text Domain: bambora-payform-payment-gateway
  * Domain Path: /languages
  * WC requires at least: 2.5.0
- * WC tested up to: 3.8.0
+ * WC tested up to: 3.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -520,7 +520,7 @@ function init_bambora_payform_gateway()
 				array_push($products, $product);				
 			}
 
-			if($this->send_items == 'yes' && $total_amount == $amount)
+			if($this->send_items == 'yes' && abs($total_amount - $amount) < 3)
 			{
 				foreach($products as $product)
 				{
